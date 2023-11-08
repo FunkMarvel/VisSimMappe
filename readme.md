@@ -1,0 +1,1 @@
+# Folder assignment in the course Visualization and Simulation
