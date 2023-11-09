@@ -43,7 +43,7 @@ void processData(const std::string& fileName)
     std::cout << bounds.xmin << " | " << bounds.xmax << " | " << bounds.ymin << " | " << bounds.ymax << " | " << bounds.
         xExtent << " | " << bounds.yExtent << std::endl;
 
-    constexpr float stepLength = 5.f; // step length [m]
+    constexpr float stepLength = 10.f; // step length [m]
     const int numStepsX = static_cast<int>(ceil(bounds.xExtent / stepLength));
     const int numStepsY = static_cast<int>(ceil(bounds.yExtent / stepLength));
 
@@ -190,6 +190,8 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
             // calculate neighbour-triangles and set to -1 if out of bounds:
             int T0 = oddTriangle;
             T0 = T0 < numTrianglesUptoThisRow + trianglesInARow ? T0: -1;
+            // if (T0 < numTrianglesUptoThisRow + trianglesInARow) T0 = T0;
+            // else T0 = -1;
             
             int T1 = evenTriangle - 1;
             T1 = T1 > numTrianglesUptoThisRow ? T1: -1;
