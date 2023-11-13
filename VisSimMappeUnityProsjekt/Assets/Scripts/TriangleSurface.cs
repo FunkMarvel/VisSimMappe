@@ -67,7 +67,7 @@ public class TriangleSurface : MonoBehaviour
     /// </summary>
     /// <param name="position">Position to find contact of.</param>
     /// <returns>struct with contact point and hit normal. If hit normal is zero vector, then no hit was found.</returns>
-    public Contact GetCollision(Vector3 position)
+    public Contact GetCollision(Vector3 position, bool correctedPos = true)
     {
         // exploit regularity of grid in xz-plane to hash to correct quad:
         var quadsPerStrip = Mathf.FloorToInt(_bounds.Height / resolution);
@@ -96,12 +96,12 @@ public class TriangleSurface : MonoBehaviour
                 var normal = _currentTriangle.SurfaceNormal;
                 var hitPosition = uvw.x * p + uvw.y * q + uvw.z * r;
 
+                if (!correctedPos) return new Contact(hitPosition, normal);
+                
                 // correcting projected point to be closest point from position to surface:
                 var diffVec = hitPosition - position;
                 hitPosition = position + Vector3.Dot(diffVec, normal) * normal;
                 
-                // Debug.Log($"found tri = {_currentTriangle.index}");
-
                 return new Contact(hitPosition, normal);
             }
 
