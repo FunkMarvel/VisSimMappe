@@ -14,8 +14,8 @@ using UnityEngine;
 
 public class BallPhysics : MonoBehaviour
 {
-    [Header("References")] [SerializeField]
-    private GameObject triangleSurfaceRef; // reference triangle surface, editable in engine.
+    [Header("References")]
+    public GameObject triangleSurfaceRef; // reference triangle surface, editable in engine.
 
     [Header("Physical properties")] [SerializeField] [Min(1e-6f)]
     private float mass = 1; // mass of ball, editable in engine.
@@ -41,7 +41,7 @@ public class BallPhysics : MonoBehaviour
     /// <summary>
     ///     Setup before first frame.
     /// </summary>
-    private void Awake()
+    private void Start()
     {
         // makes sure surface reference is set in engine editor:
         _hasSurfaceRef = triangleSurfaceRef != null;
