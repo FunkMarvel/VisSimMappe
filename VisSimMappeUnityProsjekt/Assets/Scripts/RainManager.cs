@@ -10,8 +10,12 @@
 // //////////////////////////////////////////////////////////////////////////
 // //////////////////////////////
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public struct SpawnBox
 {
@@ -32,23 +36,80 @@ public struct SpawnBox
     public Vector3 Lengths { get; }
 }
 
+public class SplineData
+{
+    public BSplineCurve Spline { get; private set; }
+    public List<Vector2> ControlPoints { get; set; } = new List<Vector2>();
+    public LineRenderer Line { get; set; }
+
+    public void GenerateSpline(int degree)
+    {
+        Spline = new BSplineCurve(degree, ControlPoints);
+    }
+
+    public void DrawSpline(int numPointsToDraw, TriangleSurface surface)
+    {
+        Vector3[] positions = new Vector3[numPointsToDraw];
+        var dt = (Spline.End - Spline.Start) / numPointsToDraw;
+        var t = Spline.Start;
+        
+        for (var i = 0; i < numPointsToDraw; i++)
+        {
+            positions[i] = surface.GetCollision(Spline.Evaluate(t).XZToVector3(), false).Point;
+            t += dt;
+        }
+
+        Line.positionCount = numPointsToDraw;
+        Line.SetPositions(positions);
+        ControlPoints.Clear();
+    }
+}
+
 public class RainManager : MonoBehaviour
 {
+    [Header("Rain Simulation")]
     [SerializeField] [Min(0)] private int numRainDrops;
     [SerializeField] private GameObject rainDropPrefab;
     [SerializeField] private GameObject surfaceObject;
 
-    private List<GameObject> drops;
+    [Header("Visualization")]
+    [SerializeField] [Min(1)] private int degree = 2;
+    [SerializeField] [Min(0)] private float simDuration;
+    [SerializeField] [Min(1)] private int numControlPoints;
+    [SerializeField] private GameObject lineObject;
+
+    private List<GameObject> _drops;
+    private List<SplineData> _splines = new List<SplineData>();
+    
+    private bool _hasSpline;
+
+    private float _sampleTime;
+    private float _timer;
+    private float _sampleTimer;
+    
+    private TriangleSurface _surface;
+    private bool _hasSurface;
     
     public SpawnBox SpawnVolume { get; private set; }
 
     private void Awake()
     {
-        var transform1 = transform;
-        SpawnVolume = new SpawnBox(transform1.position, transform1.localScale);
+
+        _hasSurface = surfaceObject != null;
+        if (_hasSurface)
+        {
+            _surface = surfaceObject.GetComponent<TriangleSurface>();
+            _hasSurface = _surface != null;
+        }
+
+        numControlPoints = numControlPoints > degree + 1 ? numControlPoints : degree + 1;
+        _sampleTime = simDuration / numControlPoints;
         
-        drops = new List<GameObject>(numRainDrops);
         var trans = transform;
+        SpawnVolume = new SpawnBox(trans.position, trans.localScale);
+        
+        _drops = new List<GameObject>(numRainDrops);
+        _splines = new List<SplineData>(numRainDrops);
         
         for (int i = 0; i < numRainDrops; i++)
         {
@@ -63,10 +124,45 @@ public class RainManager : MonoBehaviour
                 Random.Range(SpawnVolume.ZLimits.x, SpawnVolume.ZLimits.y)
             );
             var ball = obj.GetComponent<BallPhysics>();
-            if (ball != null) ball.triangleSurfaceRef = surfaceObject;
+            if (ball != null && _hasSurface) ball.triangleSurfaceRef = surfaceObject;
             obj.transform.position = pos;
-            drops.Add(obj);
+            _drops.Add(obj);
+            _splines.Add(new SplineData());
         }
+
+        _sampleTimer = simDuration;
+        Invoke(nameof(DrawBSpline), simDuration + Time.fixedDeltaTime);
+    }
+
+    private void FixedUpdate()
+    {
+        if (_timer < simDuration && _sampleTimer > _sampleTime)
+        {
+            _timer += Time.fixedDeltaTime;
+            _sampleTimer = 0;
+            for (int i = 0; i < _drops.Count; i++)
+            {
+                var pos = _drops[i].transform.position.XZToVector2();
+                _splines[i].ControlPoints.Add(pos);
+            }
+        }
+        else if (_timer < simDuration)
+        {
+            _timer += Time.fixedDeltaTime;
+            _sampleTimer += Time.fixedDeltaTime;
+        }
+    }
+
+    private void DrawBSpline()
+    {
+        foreach (var spline in _splines)
+        {
+            spline.GenerateSpline(degree);
+            spline.Line = Instantiate(lineObject).GetComponent<LineRenderer>();
+            spline.DrawSpline(spline.ControlPoints.Count, _surface);
+        }
+        _hasSpline = true;
+        Debug.LogWarning("Draw spline");
     }
 
     private void OnDrawGizmos()
@@ -76,7 +172,5 @@ public class RainManager : MonoBehaviour
 
         Gizmos.DrawWireCube(SpawnVolume.Center,
             new Vector3(SpawnVolume.Lengths.x, SpawnVolume.Lengths.y, SpawnVolume.Lengths.z));
-
-        // transform.position = Center = 0.5f * (position1 + position);
     }
 }
