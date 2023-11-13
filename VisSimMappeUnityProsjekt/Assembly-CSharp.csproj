@@ -45,7 +45,9 @@
     <Analyzer Include="F:\Unity\2022.3.7f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\ExtensionMethods.cs" />
      <Compile Include="Assets\Scripts\TriangleSurface.cs" />
+     <Compile Include="Assets\Scripts\BSplineCurve.cs" />
      <Compile Include="Assets\Scripts\TriangleData.cs" />
      <Compile Include="Assets\Scripts\MeshBounds.cs" />
      <Compile Include="Assets\Scripts\PointCloud.cs" />
