@@ -151,7 +151,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -553.7, y: 100, z: 0}
   m_LocalScale: {x: 76.05321, y: 7.74, z: 249.66826}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -167,13 +167,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bed478aa452b634294bcc440e2fe6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numRainDrops: 100
+  numRainDrops: 1000
   rainDropPrefab: {fileID: 3980118628544518745, guid: 11db6a0c6a8e25c498287ee491195c41,
     type: 3}
   surfaceObject: {fileID: 1108660713}
   degree: 2
   simDuration: 60
   numControlPoints: 15
+  numPointsToDraw: 100
   lineObject: {fileID: 2024438977288680063, guid: f9709e22801c70f4ca86f5107b26935a,
     type: 3}
 --- !u!1 &705507993

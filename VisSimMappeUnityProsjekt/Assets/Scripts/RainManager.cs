@@ -55,7 +55,9 @@ public class SplineData
         
         for (var i = 0; i < numPointsToDraw; i++)
         {
-            positions[i] = surface.GetCollision(Spline.Evaluate(t).XZToVector3(), false).Point;
+            var pos = Spline.Evaluate(t).XZToVector3();
+            var hit = surface.GetCollision(pos, false);
+            positions[i] = Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0.0f) ? pos: hit.Point;
             t += dt;
         }
 
@@ -76,6 +78,7 @@ public class RainManager : MonoBehaviour
     [SerializeField] [Min(1)] private int degree = 2;
     [SerializeField] [Min(0)] private float simDuration;
     [SerializeField] [Min(1)] private int numControlPoints;
+    [SerializeField] [Min(1)] private int numPointsToDraw;
     [SerializeField] private GameObject lineObject;
 
     private List<GameObject> _drops;
@@ -159,7 +162,7 @@ public class RainManager : MonoBehaviour
         {
             spline.GenerateSpline(degree);
             spline.Line = Instantiate(lineObject).GetComponent<LineRenderer>();
-            spline.DrawSpline(spline.ControlPoints.Count, _surface);
+            spline.DrawSpline(numPointsToDraw, _surface);
         }
         _hasSpline = true;
         Debug.LogWarning("Draw spline");

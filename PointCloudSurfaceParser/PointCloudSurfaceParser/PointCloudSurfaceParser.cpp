@@ -25,6 +25,7 @@ void writeIndexFile(const std::string& filePath, int numX, int numY);
 struct DataBounds
 {
     float xmin, xmax, ymin, ymax, zmin, zmax, xExtent, yExtent, zExtent;
+    int numLines;
 };
 
 void processData(const std::string& fileName)
@@ -47,18 +48,30 @@ void processData(const std::string& fileName)
     const int numStepsX = static_cast<int>(ceil(bounds.xExtent / stepLength));
     const int numStepsY = static_cast<int>(ceil(bounds.yExtent / stepLength));
 
-    std::vector<std::vector<std::vector<Eigen::Vector3f>>> buckets(
-        numStepsX, std::vector<std::vector<Eigen::Vector3f>>(numStepsY, std::vector<Eigen::Vector3f>()));
+    std::vector<std::vector<std::vector<float>>> buckets(
+        numStepsX,
+        std::vector<std::vector<float>>(
+            numStepsY,
+            std::vector<float>()
+        )
+    );
+    
     std::vector<std::vector<Eigen::Vector3f>> grid(
-        numStepsX, std::vector<Eigen::Vector3f>(numStepsY, Eigen::Vector3f()));
+        numStepsX,
+        std::vector<Eigen::Vector3f>(
+            numStepsY,
+            Eigen::Vector3f()
+        )
+    );
+    
     std::vector<std::vector<bool>> fillMask(numStepsX, std::vector<bool>(numStepsY, false));
 
     inFile.clear();
     inFile.seekg(0);
 
     float x{}, y{}, z{};
-    Eigen::Vector3f offset{0.5f*numStepsX*stepLength, 0.5f*numStepsY*stepLength, 0.5f*(bounds.zmax + bounds.zmin)};
-
+    Eigen::Vector3f offset{0.5f*static_cast<float>(numStepsX) *stepLength, 0.5f*static_cast<float>(numStepsY)*stepLength, 0.5f*(bounds.zmax + bounds.zmin)};
+    
     while (inFile >> x >> y >> z)
     {
         int i = static_cast<int>((x - bounds.xmin) / stepLength);
@@ -69,24 +82,28 @@ void processData(const std::string& fileName)
         if (j < 0) { j = 0; }
         else if (j >= numStepsY) { j = numStepsY - 1; }
 
-        buckets[i][j].emplace_back(x, y, z);
+        buckets[i][j].emplace_back(z);
     }
+
+    std::cout << "Number of vertices: " << bounds.numLines << std::endl;
 
     inFile.close();
 
-    for (int i = 0; i < buckets.size(); ++i)
+    // perform calculation of mean height for each grid-square in parallel:
+#pragma omp parallel for collapse(2)  // NOLINT(clang-diagnostic-source-uses-openmp)
+    for (int i = 0; i < static_cast<int>(buckets.size()); ++i)
     {
-        for (int j = 0; j < buckets[0].size(); ++j)
+        for (int j = 0; j < static_cast<int>(buckets[0].size()); ++j)
         {
-            float meanPoint{};
-            for (const auto& point : buckets[i][j])
+            float meanHeight{};
+            for (const auto& height : buckets[i][j])
             {
-                meanPoint += point.z();
+                meanHeight += height;
             }
             if(!buckets[i][j].empty())
             {
-                meanPoint /= static_cast<const float&>(buckets[i][j].size());
-                grid[i][j] = Eigen::Vector3f{i*stepLength, j*stepLength, meanPoint} - offset;
+                meanHeight /= static_cast<float>(buckets[i][j].size());
+                grid[i][j] = Eigen::Vector3f{static_cast<float>(i) * stepLength, static_cast<float>(j)*stepLength, meanHeight} - offset;
                 fillMask[i][j] = true;
             }
         }
@@ -94,9 +111,9 @@ void processData(const std::string& fileName)
 
     buckets.clear();
 
-    for (int i = 0; i < grid.size(); ++i)
+    for (int i = 0; i < static_cast<int>(grid.size()); ++i)
     {
-        for (int j = 0; j < grid[0].size(); ++j)
+        for (int j = 0; j < static_cast<int>(grid[0].size()); ++j)
         {
             if (fillMask[i][j])
             {
@@ -112,11 +129,11 @@ void processData(const std::string& fileName)
                 {
                     if (yn < 0 || yn >= numStepsY || !fillMask[xn][yn]) continue;
 
-                    grid[i][j][2] += grid[xn][yn].z();
+                    grid[i][j] += grid[xn][yn];
                     numPoints++;
                 }
             }
-            grid[i][j][2] /= numPoints > 0 ? numPoints: 1.f;
+            grid[i][j][2] /= numPoints > 0 ? static_cast<float>(numPoints): 1.f;
             fillMask[i][j] = true;
         }
         
@@ -247,36 +264,32 @@ DataBounds findBounds(std::ifstream& file)
     float xmax = xmin = x;
     float ymax = ymin = y;
     float zmax = zmin = z;
+    int numLines{1};
 
     while (file >> x >> y >> z)
     {
-        if (x < xmin)
-        {
-            xmin = x;
-        }
-        else if (x > xmax)
-        {
-            xmax = x;
-        }
-        if (y < ymin)
-        {
-            ymin = y;
-        }
-        else if (y > ymax)
-        {
-            ymax = y;
-        }
-        if (z < zmin)
-        {
-            zmin = z;
-        }
-        else if (z > zmax)
-        {
-            zmax = z;
-        }
+        numLines++;
+        
+        const auto xIsMax{xmax < x};
+        xmax = x * static_cast<float>(xIsMax) + static_cast<float>(!xIsMax) * xmax;
+
+        const auto xIsMin{xmin > x};
+        xmin = x * static_cast<float>(xIsMin) + static_cast<float>(!xIsMin) * xmin;
+
+        const auto yIsMax{ymax < y};
+        ymax = y * static_cast<float>(yIsMax) + static_cast<float>(!yIsMax) * ymax;
+
+        const auto yIsMin{ymin > y};
+        ymin = y * static_cast<float>(yIsMin) + static_cast<float>(!yIsMin) * ymin;
+
+        const auto zIsMax{zmax < z};
+        zmax = z * static_cast<float>(zIsMax) + static_cast<float>(!zIsMax) * zmax;
+
+        const auto zIsMin{zmin > z};
+        zmin = z * static_cast<float>(zIsMin) + static_cast<float>(!zIsMin) * zmin;
     }
 
-    return DataBounds{xmin, xmax, ymin, ymax, zmin, zmax, xmax - xmin, ymax - ymin, zmax - zmin};
+    return DataBounds{xmin, xmax, ymin, ymax, zmin, zmax, xmax - xmin, ymax - ymin, zmax - zmin, numLines};
 }
 
 int main(int argc, char* argv[])
