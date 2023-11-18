@@ -40,7 +40,7 @@ void processData(const std::string& fileName)
     }
     std::vector<Eigen::Vector3f> data{};
 
-    const DataBounds bounds = ReadData(inFile,data);
+    const DataBounds bounds = ReadData(inFile, data);
     inFile.close();
 
     std::cout << bounds.xmin << " | " << bounds.xmax << " | " << bounds.ymin << " | " << bounds.ymax << " | " << bounds.
@@ -58,7 +58,7 @@ void processData(const std::string& fileName)
             std::vector<float>()
         )
     );
-    
+
     std::vector<std::vector<Eigen::Vector3f>> grid(
         numStepsX,
         std::vector<Eigen::Vector3f>(
@@ -66,10 +66,14 @@ void processData(const std::string& fileName)
             Eigen::Vector3f()
         )
     );
-    
-    std::vector<std::vector<bool>> fillMask(numStepsX, std::vector<bool>(numStepsY, false));
-    Eigen::Vector3f offset{0.5f*static_cast<float>(numStepsX)*stepLength, 0.5f*static_cast<float>(numStepsY)*stepLength, 0.5f*(bounds.zmax + bounds.zmin)};
 
+    std::vector<std::vector<bool>> fillMask(numStepsX, std::vector<bool>(numStepsY, false));
+    Eigen::Vector3f offset{
+        0.5f * static_cast<float>(numStepsX) * stepLength, 0.5f * static_cast<float>(numStepsY) * stepLength,
+        0.5f * (bounds.zmax + bounds.zmin)
+    };
+
+    // enable parallel processing of points.
 #pragma omp parallel for  // NOLINT(clang-diagnostic-source-uses-openmp)
     for (int k = 0; k < static_cast<int>(data.size()); k++)
     {
@@ -87,11 +91,11 @@ void processData(const std::string& fileName)
             buckets[i][j].emplace_back(point.z());
         }
     }
-    
+
     data.clear();
 
     // perform calculation of mean height for each grid-square in parallel:
-#pragma omp parallel for collapse(2)  // NOLINT(clang-diagnostic-source-uses-openmp)
+#pragma omp parallel for  // NOLINT(clang-diagnostic-source-uses-openmp)
     for (int i = 0; i < static_cast<int>(buckets.size()); ++i)
     {
         for (int j = 0; j < static_cast<int>(buckets[0].size()); ++j)
@@ -101,10 +105,12 @@ void processData(const std::string& fileName)
             {
                 meanHeight += height;
             }
-            if(!buckets[i][j].empty())
+            if (!buckets[i][j].empty())
             {
                 meanHeight /= static_cast<float>(buckets[i][j].size());
-                grid[i][j] = Eigen::Vector3f{static_cast<float>(i) * stepLength, static_cast<float>(j)*stepLength, meanHeight} - offset;
+                grid[i][j] = Eigen::Vector3f{
+                    static_cast<float>(i) * stepLength, static_cast<float>(j) * stepLength, meanHeight
+                } - offset;
                 fillMask[i][j] = true;
             }
         }
@@ -120,13 +126,13 @@ void processData(const std::string& fileName)
             {
                 continue;
             }
-            
+
             int numPoints{};
-            
-            for (int xn = i-1; xn <= i+1; ++xn)
+
+            for (int xn = i - 1; xn <= i + 1; ++xn)
             {
-                if (xn < 0 || xn >= numStepsX) continue; 
-                for (int yn = j-1; yn <= j+1; ++yn)
+                if (xn < 0 || xn >= numStepsX) continue;
+                for (int yn = j - 1; yn <= j + 1; ++yn)
                 {
                     if (yn < 0 || yn >= numStepsY || !fillMask[xn][yn]) continue;
 
@@ -134,10 +140,9 @@ void processData(const std::string& fileName)
                     numPoints++;
                 }
             }
-            grid[i][j][2] /= numPoints > 0 ? static_cast<float>(numPoints): 1.f;
+            grid[i][j][2] /= numPoints > 0 ? static_cast<float>(numPoints) : 1.f;
             fillMask[i][j] = true;
         }
-        
     }
 
     writeVertexData("../ProcessedData/vertices.txt", grid, Eigen::Vector3f{
@@ -166,7 +171,7 @@ void writeVertexData(const std::string& filePath, const std::vector<std::vector<
         for (size_t j = 0; j < dataGrid[0].size(); ++j)
         {
             auto point = dataGrid[i][j];
-            outFile << "(" << point.x()*scaleX << ", " << point.z()*scaleZ << ", " << point.y()*scaleY << ")\n";
+            outFile << "(" << point.x() * scaleX << ", " << point.z() * scaleZ << ", " << point.y() * scaleY << ")\n";
         }
     }
 
@@ -183,72 +188,66 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
         throw std::runtime_error(msg);
     }
 
-    std::vector<int> indices{};
-    std::vector<int> neighbours{};
-
     // useful constants:
-    const int trianglesInARow = 2*(numY-1);
-    const int totalTris = trianglesInARow * (numX-1);
+    const int trianglesInARow = 2 * (numY - 1);
+    const int totalTris = trianglesInARow * (numX - 1);
+
+    std::vector<std::vector<int>> indices(totalTris, std::vector<int>(3, -1));
+    std::vector<std::vector<int>> neighbours(totalTris, std::vector<int>(3, -1));
+
     // loop through grid squares and index each triangle in square:
-    for(int i = 0; i < numX-1; i++)
+#pragma omp parallel for
+    for (int i = 0; i < numX - 1; i++)
     {
         // useful constant:
-        const int numTrianglesUptoThisRow = 2*i*(numY-1);
-        for (int j = 0; j < numY-1; j++)
+        const int numTrianglesUptoThisRow = 2 * i * (numY - 1);
+        for (int j = 0; j < numY - 1; j++)
         {
             // useful constants
-            const int evenTriangle = 2*(i*(numY-1) + j);
+            const int evenTriangle = 2 * (i * (numY - 1) + j);
             const int oddTriangle = evenTriangle + 1;
-            
+
             // first triangle
-            indices.emplace_back(j+i*numY);
-            indices.emplace_back((j+1)+i*numY);
-            indices.emplace_back(j+(i+1)*numY);
+            indices[evenTriangle][0] = j + i * numY;
+            indices[evenTriangle][1] = j + 1 + i * numY;
+            indices[evenTriangle][2] = j + (i + 1) * numY;
 
             // calculate neighbour-triangles and set to -1 if out of bounds:
             int T0 = oddTriangle;
-            T0 = T0 < numTrianglesUptoThisRow + trianglesInARow ? T0: -1;
+            neighbours[evenTriangle][0] = T0 < numTrianglesUptoThisRow + trianglesInARow ? T0 : -1;
             // if (T0 < numTrianglesUptoThisRow + trianglesInARow) T0 = T0;
             // else T0 = -1;
-            
-            int T1 = evenTriangle - 1;
-            T1 = T1 > numTrianglesUptoThisRow ? T1: -1;
-            
-            int T2 = evenTriangle - trianglesInARow + 1;
-            T2 = T2 > 0 ? T2: -1;
 
-            neighbours.emplace_back(T0);
-            neighbours.emplace_back(T1);
-            neighbours.emplace_back(T2);
+            int T1 = evenTriangle - 1;
+            neighbours[evenTriangle][1] = T1 > numTrianglesUptoThisRow ? T1 : -1;
+
+            int T2 = evenTriangle - trianglesInARow + 1;
+            neighbours[evenTriangle][2] = T2 > 0 ? T2 : -1;
 
             // second triangle
-            indices.emplace_back((j+1)+i*numY);
-            indices.emplace_back((j+1)+(i+1)*numY);
-            indices.emplace_back(j+(i+1)*numY);
+            indices[oddTriangle][0] = j + 1 + i * numY;
+            indices[oddTriangle][1] = j + 1 + (i + 1) * numY;
+            indices[oddTriangle][2] = j + (i + 1) * numY;
 
             // calculate neighbour-triangles and set to -1 if out of bounds:
             T0 = evenTriangle + trianglesInARow;
-            T0 = T0 < totalTris ? T0: -1;
-            
-            T1 = evenTriangle;
-            T1 = T1 >= numTrianglesUptoThisRow ? T1: -1;
-            
-            T2 = oddTriangle + 1;
-            T2 = T2 < numTrianglesUptoThisRow + trianglesInARow ? T2: -1;
+            neighbours[oddTriangle][0] = T0 < totalTris ? T0 : -1;
 
-            neighbours.emplace_back(T0);
-            neighbours.emplace_back(T1);
-            neighbours.emplace_back(T2);
+            T1 = evenTriangle;
+            neighbours[oddTriangle][1] = T1 >= numTrianglesUptoThisRow ? T1 : -1;
+
+            T2 = oddTriangle + 1;
+            neighbours[oddTriangle][2] = T2 < numTrianglesUptoThisRow + trianglesInARow ? T2 : -1;
         }
     }
 
     outFile << totalTris << "\n";
     std::cout << indices.size() << " " << totalTris << std::endl;
 
-    for (size_t i = 2; i < indices.size(); i+=3)
+    for (size_t i = 0; i < indices.size(); i++)
     {
-        outFile << indices[i-2] << " " << indices[i-1] << " " << indices[i] << " "
-        << neighbours[i-2] << " " << neighbours[i-1] << " " << neighbours[i] << "\n";
+        outFile << indices[i][0] << " " << indices[i][1] << " " << indices[i][2] << " "
+            << neighbours[i][0] << " " << neighbours[i][1] << " " << neighbours[i][2] << "\n";
     }
 
     outFile.close();
@@ -271,7 +270,7 @@ DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataConta
     while (file >> x >> y >> z)
     {
         numLines++;
-        
+
         const auto xIsMax{xmax < x};
         xmax = x * static_cast<float>(xIsMax) + static_cast<float>(!xIsMax) * xmax;
 
@@ -290,7 +289,7 @@ DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataConta
         const auto zIsMin{zmin > z};
         zmin = z * static_cast<float>(zIsMin) + static_cast<float>(!zIsMin) * zmin;
 
-        dataContainer.emplace_back(x,y,z);
+        dataContainer.emplace_back(x, y, z);
     }
 
     return DataBounds{xmin, xmax, ymin, ymax, zmin, zmax, xmax - xmin, ymax - ymin, zmax - zmin, numLines};
