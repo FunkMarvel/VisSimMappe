@@ -17,7 +17,7 @@
 #include <eigen3/Eigen/Eigen>
 
 struct DataBounds;
-DataBounds findBounds(std::ifstream& file);
+DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer);
 void writeVertexData(const std::string& filePath, const std::vector<std::vector<Eigen::Vector3f>>& dataGrid,
                      const Eigen::Vector3f& offset, float scaleX, float scaleY, float scaleZ);
 void writeIndexFile(const std::string& filePath, int numX, int numY);
@@ -38,11 +38,14 @@ void processData(const std::string& fileName)
         std::cout << msg << std::endl;
         throw std::runtime_error(msg);
     }
+    std::vector<Eigen::Vector3f> data{};
 
-    const DataBounds bounds = findBounds(inFile);
+    const DataBounds bounds = ReadData(inFile,data);
+    inFile.close();
 
     std::cout << bounds.xmin << " | " << bounds.xmax << " | " << bounds.ymin << " | " << bounds.ymax << " | " << bounds.
         xExtent << " | " << bounds.yExtent << std::endl;
+    std::cout << "Number of vertices: " << bounds.numLines << std::endl;
 
     constexpr float stepLength = 10.f; // step length [m]
     const int numStepsX = static_cast<int>(ceil(bounds.xExtent / stepLength));
@@ -65,29 +68,27 @@ void processData(const std::string& fileName)
     );
     
     std::vector<std::vector<bool>> fillMask(numStepsX, std::vector<bool>(numStepsY, false));
+    Eigen::Vector3f offset{0.5f*static_cast<float>(numStepsX)*stepLength, 0.5f*static_cast<float>(numStepsY)*stepLength, 0.5f*(bounds.zmax + bounds.zmin)};
 
-    inFile.clear();
-    inFile.seekg(0);
-
-    float x{}, y{}, z{};
-    Eigen::Vector3f offset{0.5f*static_cast<float>(numStepsX) *stepLength, 0.5f*static_cast<float>(numStepsY)*stepLength, 0.5f*(bounds.zmax + bounds.zmin)};
-    
-    while (inFile >> x >> y >> z)
+#pragma omp parallel for  // NOLINT(clang-diagnostic-source-uses-openmp)
+    for (int k = 0; k < static_cast<int>(data.size()); k++)
     {
-        int i = static_cast<int>((x - bounds.xmin) / stepLength);
-        int j = static_cast<int>((y - bounds.ymin) / stepLength);
+        Eigen::Vector3f point = data[k];
+        int i = static_cast<int>((point.x() - bounds.xmin) / stepLength);
+        int j = static_cast<int>((point.y() - bounds.ymin) / stepLength);
 
         if (i < 0) { i = 0; }
         else if (i >= numStepsX) { i = numStepsX - 1; }
         if (j < 0) { j = 0; }
         else if (j >= numStepsY) { j = numStepsY - 1; }
 
-        buckets[i][j].emplace_back(z);
+#pragma omp critical
+        {
+            buckets[i][j].emplace_back(point.z());
+        }
     }
-
-    std::cout << "Number of vertices: " << bounds.numLines << std::endl;
-
-    inFile.close();
+    
+    data.clear();
 
     // perform calculation of mean height for each grid-square in parallel:
 #pragma omp parallel for collapse(2)  // NOLINT(clang-diagnostic-source-uses-openmp)
@@ -253,8 +254,9 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
     outFile.close();
 }
 
-DataBounds findBounds(std::ifstream& file)
+DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer)
 {
+    dataContainer.clear();
     file.clear();
     file.seekg(0);
 
@@ -287,6 +289,8 @@ DataBounds findBounds(std::ifstream& file)
 
         const auto zIsMin{zmin > z};
         zmin = z * static_cast<float>(zIsMin) + static_cast<float>(!zIsMin) * zmin;
+
+        dataContainer.emplace_back(x,y,z);
     }
 
     return DataBounds{xmin, xmax, ymin, ymax, zmin, zmax, xmax - xmin, ymax - ymin, zmax - zmin, numLines};
