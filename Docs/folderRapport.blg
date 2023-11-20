@@ -1,0 +1,17 @@
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'folderRapport.blg'
+[104] biber-MSWIN64:340> INFO - === 
+[138] Biber.pm:419> INFO - Reading 'folderRapport.bcf'
+[276] Biber.pm:979> INFO - Found 1 citekeys in bib section 0
+[300] Biber.pm:4419> INFO - Processing section 0
+[311] Biber.pm:4610> INFO - Looking for bibtex file 'referanser.bib' for section 0
+[352] bibtex.pm:1713> INFO - LaTeX decoding ...
+[358] bibtex.pm:1519> INFO - Found BibTeX data source 'referanser.bib'
+[401] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[401] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[401] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
+[411] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[411] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[411] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
+[416] bbl.pm:660> INFO - Writing 'folderRapport.bbl' with encoding 'UTF-8'
+[418] bbl.pm:763> INFO - Output to folderRapport.bbl

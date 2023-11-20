@@ -1,0 +1,5 @@
+\babel@toc {norsk}{}\relax 
+\contentsline {section}{Introduksjon}{2}{section*.3}%
+\contentsline {section}{Metode}{2}{section*.4}%
+\contentsline {section}{Resultater}{2}{section*.5}%
+\contentsline {section}{Konklusjon}{2}{section*.6}%
