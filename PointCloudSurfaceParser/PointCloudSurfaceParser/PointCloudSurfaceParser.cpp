@@ -4,9 +4,9 @@
 // //FileType: Visual C++ Source file
 // //Author : Anders P. Åsbø
 // //Created On : 01/10/2023
-// //Last Modified On : 01/10/2023
+// //Last Modified On : 18/11/2023
 // //Copy Rights : Anders P. Åsbø
-// //Description : 
+// //Description : Program for creating regular triangulated surface from point cloud.
 // //////////////////////////////////////////////////////////////////////////
 // //////////////////////////////
 
@@ -17,7 +17,7 @@
 #include <eigen3/Eigen/Eigen>
 
 struct DataBounds;
-DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer);
+DataBounds readData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer);
 void writeVertexData(const std::string& filePath, const std::vector<std::vector<Eigen::Vector3f>>& dataGrid,
                      const Eigen::Vector3f& offset, float scaleX, float scaleY, float scaleZ);
 void writeIndexFile(const std::string& filePath, int numX, int numY);
@@ -38,19 +38,22 @@ void processData(const std::string& fileName)
         std::cout << msg << std::endl;
         throw std::runtime_error(msg);
     }
-    std::vector<Eigen::Vector3f> data{};
+    std::vector<Eigen::Vector3f> data{};  // array to store points in.
 
-    const DataBounds bounds = ReadData(inFile, data);
+    // read data from file and get data bounds:
+    const DataBounds bounds = readData(inFile, data);
     inFile.close();
 
     std::cout << bounds.xmin << " | " << bounds.xmax << " | " << bounds.ymin << " | " << bounds.ymax << " | " << bounds.
         xExtent << " | " << bounds.yExtent << std::endl;
     std::cout << "Number of vertices: " << bounds.numLines << std::endl;
 
+    // define grid parameters:
     constexpr float stepLength = 10.f; // step length [m]
     const int numStepsX = static_cast<int>(ceil(bounds.xExtent / stepLength));
     const int numStepsY = static_cast<int>(ceil(bounds.yExtent / stepLength));
 
+    // create 3D list for organizing height data in grid squares:
     std::vector<std::vector<std::vector<float>>> buckets(
         numStepsX,
         std::vector<std::vector<float>>(
@@ -67,15 +70,16 @@ void processData(const std::string& fileName)
         )
     );
 
+    // mask to log empty squares, and offset-vector to center grid:
     std::vector<std::vector<bool>> fillMask(numStepsX, std::vector<bool>(numStepsY, false));
     Eigen::Vector3f offset{
         0.5f * static_cast<float>(numStepsX) * stepLength, 0.5f * static_cast<float>(numStepsY) * stepLength,
         0.5f * (bounds.zmax + bounds.zmin)
     };
 
-    // enable parallel processing of points.
+    // store heights to grid squares in parallel using openMP:
 #pragma omp parallel for  // NOLINT(clang-diagnostic-source-uses-openmp)
-    for (int k = 0; k < static_cast<int>(data.size()); k++)
+    for (int k = 0; k < static_cast<int>(data.size()); k++) // NOLINT(modernize-loop-convert)
     {
         Eigen::Vector3f point = data[k];
         int i = static_cast<int>((point.x() - bounds.xmin) / stepLength);
@@ -86,6 +90,7 @@ void processData(const std::string& fileName)
         if (j < 0) { j = 0; }
         else if (j >= numStepsY) { j = numStepsY - 1; }
 
+        // only one thread writes to array at once:
 #pragma omp critical
         {
             buckets[i][j].emplace_back(point.z());
@@ -253,7 +258,7 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
     outFile.close();
 }
 
-DataBounds ReadData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer)
+DataBounds readData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer)
 {
     dataContainer.clear();
     file.clear();
