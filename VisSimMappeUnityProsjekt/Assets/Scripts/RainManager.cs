@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -38,6 +37,7 @@ public struct SpawnBox
 
 public class SplineData
 {
+    // ReSharper disable once MemberCanBePrivate.Global
     public BSplineCurve Spline { get; private set; }
     public List<Vector2> ControlPoints { get; set; } = new List<Vector2>();
     public LineRenderer Line { get; set; }
@@ -49,7 +49,7 @@ public class SplineData
 
     public void DrawSpline(int numPointsToDraw, TriangleSurface surface)
     {
-        Vector3[] positions = new Vector3[numPointsToDraw];
+        var positions = new Vector3[numPointsToDraw];
         var dt = (Spline.End - Spline.Start) / numPointsToDraw;
         var t = Spline.Start;
         
@@ -63,7 +63,83 @@ public class SplineData
 
         Line.positionCount = numPointsToDraw;
         Line.SetPositions(positions);
-        ControlPoints.Clear();
+        // ControlPoints.Clear();
+    }
+
+    public Tuple<Vector3, Vector3> GetClosestPoint(Vector3 pos, TriangleSurface surface)
+    {
+        var t0 = Spline.Start;
+        var t1 = Spline.End;
+        var t01 = 0.5f * (t1 - t0);
+        var point = pos.XZToVector2();
+        var onSpline = Spline.Evaluate(t0);
+        var tangent = Spline.Tangent(t0);
+        var diff = onSpline - point;
+        var dot = Vector2.Dot(diff, tangent);
+        var i = 0;
+        const int limit = 1000;
+        Debug.Log($"dot = {dot}, t0 {t0}, t01 {t01}, t1 {t1}");
+        
+        while (Mathf.Abs(dot) > 1e-4f && i++ < limit)
+        {
+            onSpline = Spline.Evaluate(t01);
+            diff = onSpline - point;
+            tangent = Spline.Tangent(t01);
+            dot = Vector2.Dot(diff, tangent);
+            Debug.Log($"dot = {dot}, t0 {t0}, t01 {t01}, t1 {t1}");
+            
+            if (dot < 0f)
+            {
+                t0 = t01;
+                t01 = 0.5f * (t1 + t0);
+            }
+            else
+            {
+                t1 = t01;
+                t01 = 0.5f * (t1 + t0);
+            }
+        }
+        
+        var hit = surface.GetCollision(onSpline.XZToVector3(), false);
+        pos = Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0.0f) ? onSpline.XZToVector3(): hit.Point;
+        var tan = Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0.0f) ? tangent.XZToVector3(): Vector3.ProjectOnPlane(tangent.XZToVector3(), hit.HitNormal).normalized;
+        return new Tuple<Vector3, Vector3>(pos, tan);
+    }
+
+    public Vector3 GetClosestTangent(Vector3 pos, TriangleSurface surface)
+    {
+        var t0 = Spline.Start;
+        var t1 = Spline.End;
+        var t01 = 0.5f * (t1 - t0);
+        var point = pos.XZToVector2();
+        var onSpline = Spline.Evaluate(t0);
+        var tangent = Spline.Tangent(t0);
+        var diff = onSpline - point;
+        var dot = Vector2.Dot(diff, tangent);
+        var i = 0;
+        const int limit = 1000;
+        
+        while (Mathf.Abs(dot) > 1e-4f && i++ < limit)
+        {
+            onSpline = Spline.Evaluate(t01);
+            diff = onSpline - point;
+            tangent = Spline.Tangent(t01);
+            dot = Vector2.Dot(diff, tangent);
+            
+            if (dot > 0f)
+            {
+                t0 = t01;
+                t01 = 0.5f * (t1 - t0);
+            }
+            else
+            {
+                t1 = t01;
+                t01 = 0.5f * (t1 - t0);
+            }
+        }
+        
+        var hit = surface.GetCollision(onSpline.XZToVector3(), false);
+        return Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0.0f) ? tangent.XZToVector3(): Vector3.ProjectOnPlane(tangent.XZToVector3(), hit.HitNormal).normalized;
     }
 }
 
@@ -83,8 +159,6 @@ public class RainManager : MonoBehaviour
 
     private List<GameObject> _drops;
     private List<SplineData> _splines = new List<SplineData>();
-    
-    private bool _hasSpline;
 
     private float _sampleTime;
     private float _timer;
@@ -92,8 +166,8 @@ public class RainManager : MonoBehaviour
     
     private TriangleSurface _surface;
     private bool _hasSurface;
-    
-    public SpawnBox SpawnVolume { get; private set; }
+
+    private SpawnBox SpawnVolume { get; set; }
 
     private void Awake()
     {
@@ -163,9 +237,10 @@ public class RainManager : MonoBehaviour
             spline.GenerateSpline(degree);
             spline.Line = Instantiate(lineObject).GetComponent<LineRenderer>();
             spline.DrawSpline(numPointsToDraw, _surface);
+            // spline.Tangent = Instantiate(lineObject).GetComponent<LineRenderer>();
+            // spline.DrawTangents(0.5f*(_splines[0].Spline.End - _splines[0].Spline.Start), _surface);
         }
-        _hasSpline = true;
-        Debug.LogWarning("Draw spline");
+        print("Drew spline");
     }
 
     private void OnDrawGizmos()

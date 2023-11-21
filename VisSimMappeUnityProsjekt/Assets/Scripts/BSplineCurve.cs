@@ -67,15 +67,20 @@ public class BSplineCurve
 
     private int FindKnotInterval(float t)
     {
-        var mu = _knotVector.Count - 1;
-        while (t < _knotVector[mu]) mu--;
+        return FindKnotInterval(t, Degree, _controlPoints, _knotVector);
+    }
+    
+    private static int FindKnotInterval(float t, int d, IReadOnlyCollection<Vector2> c, IReadOnlyList<float> T)
+    {
+        var mu = T.Count - 1;
+        while (t < T[mu]) mu--;
 
-        if (mu >= _controlPoints.Count)
+        if (mu >= c.Count)
         {
-            mu = _controlPoints.Count - 1;
+            mu = c.Count - 1;
         } else if (mu < 0)
         {
-            mu = Degree;
+            mu = d;
         }
         
         return mu;
@@ -84,23 +89,59 @@ public class BSplineCurve
     public Vector2 Evaluate(float t)
     {
         var mu = FindKnotInterval(t);
+        return Eval(t, Degree, mu, _controlPoints, _knotVector);
+    }
+    
+    private static Vector2 Eval(float t, int d, int mu, IReadOnlyList<Vector2> c, IReadOnlyList<float> T)
+    {
+        var localPoints = new List<Vector2>(d + 1);
+        
+        for (var i = d; i >= 0; i--) localPoints.Add(c[mu - i]);
 
-        var localPoints = new List<Vector2>(Degree + 1);
-
-        for (var i = Degree; i >= 0; i--) localPoints.Add(_controlPoints[mu - i]);
-
-        for (var k = Degree; k > 0; k--)
+        for (var k = d; k > 0; k--)
         {
             var j = mu - k;
             for (var i = 0; i < k; i++)
             {
                 j++;
-                var w = (t - _knotVector[j]) / (_knotVector[j + k] - _knotVector[j]);
+                var w = (t - T[j]) / (T[j + k] - T[j]);
                 localPoints[i] = localPoints[i] * (1 - w) + localPoints[i + 1] * w;
             }
         }
 
         return localPoints[0];
+    }
+
+    public Vector2 Tangent(float t)
+    {
+        // var mu = FindKnotInterval(t);
+        //
+        // var diffCP = new List<Vector2>(Degree + 1);
+        // for (var i = 0; i < Degree+1; i++)
+        // {
+        //     diffCP.Add(
+        //         Degree *
+        //         (_controlPoints[i+mu-Degree+1] - _controlPoints[i+mu-Degree]) /
+        //         (_knotVector[i+mu+1] - _knotVector[i+mu-Degree+1])
+        //     );
+        // }
+        //
+        // mu = FindKnotInterval(t, Degree - 1, diffCP, _knotVector.GetRange(1, _knotVector.Count - 2));
+        //
+        // return Eval(t, Degree - 1, mu, diffCP, _knotVector.GetRange(1, _knotVector.Count - 2)).normalized;
+
+        float dt = 0.5f;
+        if (t < Start)
+        {
+            t = Start;
+        }
+        
+        if (t > End)
+        {
+            t = End - dt;
+        }
+        
+        return (Evaluate(t + dt) - Evaluate(t)).normalized;
     }
 
     public float Start
