@@ -220,8 +220,6 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
             // calculate neighbour-triangles and set to -1 if out of bounds:
             int T0 = oddTriangle;
             neighbours[evenTriangle][0] = T0 < numTrianglesUptoThisRow + trianglesInARow ? T0 : -1;
-            // if (T0 < numTrianglesUptoThisRow + trianglesInARow) T0 = T0;
-            // else T0 = -1;
 
             int T1 = evenTriangle - 1;
             neighbours[evenTriangle][1] = T1 > numTrianglesUptoThisRow ? T1 : -1;
