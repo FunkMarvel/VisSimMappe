@@ -134,10 +134,10 @@ void processData(const std::string& fileName)
 
             int numPoints{};
 
-            for (int xn = i - 1; xn <= i + 1; ++xn)
+            for (int xn = i - 100; xn <= i + 100; ++xn)
             {
                 if (xn < 0 || xn >= numStepsX) continue;
-                for (int yn = j - 1; yn <= j + 1; ++yn)
+                for (int yn = j - 100; yn <= j + 100; ++yn)
                 {
                     if (yn < 0 || yn >= numStepsY || !fillMask[xn][yn]) continue;
 

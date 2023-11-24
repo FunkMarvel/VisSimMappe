@@ -26,7 +26,7 @@ public class TriangleSurface : MonoBehaviour
     [SerializeField] private TextAsset vertexFile; // reference to text-file with vertices.
     [SerializeField] private TextAsset indexFile; // reference to text-file with triangulation-data.
     [SerializeField] private Material material; // reference to Unity-material to color mesh with.
-    [SerializeField] [Min(1e-6f)] private float resolution = 5.0f;
+    private float _resolution = 5.0f;
     private TriangleData _currentTriangle; // for keeping track of ball.
     private MeshBounds _bounds;
 
@@ -70,9 +70,9 @@ public class TriangleSurface : MonoBehaviour
     public Contact GetCollision(Vector3 position, bool correctedPos = true)
     {
         // exploit regularity of grid in xz-plane to hash to correct quad:
-        var quadsPerStrip = Mathf.FloorToInt(_bounds.Height / resolution);
-        var i = Mathf.FloorToInt((position.x - _bounds.XMin) / resolution);
-        var j = Mathf.FloorToInt((position.z - _bounds.ZMin) / resolution);
+        var quadsPerStrip = Mathf.FloorToInt(_bounds.Height / _resolution);
+        var i = Mathf.FloorToInt((position.x - _bounds.XMin) / _resolution);
+        var j = Mathf.FloorToInt((position.z - _bounds.ZMin) / _resolution);
         var triangleIdx = 2 * (j + i * quadsPerStrip);
         
         // ensure index within bounds.
@@ -251,6 +251,8 @@ public class TriangleSurface : MonoBehaviour
             zmin = Mathf.Min(vertex.z, zmin);
             zmax = Mathf.Max(vertex.z, zmax);
         }
+
+        if (vertices.Length > 1) _resolution = vertices[1].z - vertices[0].z;
 
         _bounds = new MeshBounds(xmin, xmax, ymin, ymax, zmin, zmax);
 

@@ -31,12 +31,15 @@ public class BallPhysics : MonoBehaviour
     // internal variable for drawing contact point:
     private Vector3 _prevContact = Vector3.zero;
     private float _elapsedTimeSinceContact;
+    private Vector3 _extraForces = Vector3.zero;
 
     // reference to instance of triangle surface:
     private TriangleSurface _triangleSurface;
 
     // physics velocity:
     private Vector3 _velocity = Vector3.zero;
+
+    public float Radius => radius;
 
     /// <summary>
     ///     Setup before first frame.
@@ -84,7 +87,7 @@ public class BallPhysics : MonoBehaviour
             var distVec = position - hit.Point;
             var dist = distVec.magnitude;
 
-            if (dist <= radius) // check if actually colliding
+            if (dist <= Radius) // check if actually colliding
             {
                 _elapsedTimeSinceContact += Time.fixedDeltaTime;
 
@@ -106,7 +109,7 @@ public class BallPhysics : MonoBehaviour
                 // add normal-force:
                 var normalForceMagnitude = Vector3.Dot(netForce, hit.HitNormal);
                 netForce -= (hit.HitNormal - rollingCoefficient * parallelUnit) * normalForceMagnitude;
-                transform1.position = 0.5f*(hit.Point + nextHit.Point) + radius * reflectNorm;
+                transform1.position = 0.5f*(hit.Point + nextHit.Point) + Radius * reflectNorm;
             }
             // Debug.Log($"Normal: {hit.HitNormal}");
 
@@ -121,14 +124,20 @@ public class BallPhysics : MonoBehaviour
             var acceleration = netForce / mass;
             _velocity += acceleration * Time.fixedDeltaTime;
 
-            transform1.Translate(_velocity * Time.fixedDeltaTime);
+            transform1.Translate(_velocity * Time.fixedDeltaTime + (_extraForces/mass) * (Time.fixedDeltaTime * Time.fixedDeltaTime));
+            _extraForces = Vector3.zero;
 
             // log position:
-            // Debug.Log($"Position: {position} | " +
+            // Debug.Log($" Position: {position} | " +
             //           $"Velocity {_velocity.magnitude:F4} | " +
             //           $"Acceleration {acceleration.magnitude:F4} | " +
             //           $"Time since contact {_elapsedTimeSinceContact:F4}");
         }
+    }
+
+    public void AddForce(Vector3 force)
+    {
+        _extraForces = force;
     }
 
     /// <summary>
