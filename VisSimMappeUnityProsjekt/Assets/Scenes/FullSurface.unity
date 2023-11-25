@@ -172,9 +172,9 @@ MonoBehaviour:
     type: 3}
   surfaceObject: {fileID: 1108660713}
   degree: 2
-  simDuration: 60
+  simDuration: 30
   numControlPoints: 15
-  numPointsToDraw: 100
+  numPointsToDraw: 750
   lineObject: {fileID: 2024438977288680063, guid: f9709e22801c70f4ca86f5107b26935a,
     type: 3}
   ballObject: {fileID: 1576495243}

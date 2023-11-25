@@ -63,7 +63,6 @@ public class SplineData
 
         Line.positionCount = numPointsToDraw;
         Line.SetPositions(positions);
-        // ControlPoints.Clear();
     }
 
     public Tuple<Vector3, Vector3> GetClosestPoint(Vector3 pos, TriangleSurface surface)
@@ -78,7 +77,6 @@ public class SplineData
         var dot = Vector2.Dot(diff, tangent);
         var i = 0;
         const int limit = 100;
-        // Debug.Log($"dot = {dot}, t0 {t0}, t01 {t01}, t1 {t1}");
         
         while (Mathf.Abs(dot) > 1e-4f && i++ < limit)
         {
@@ -86,7 +84,6 @@ public class SplineData
             diff = onSpline - point;
             tangent = Spline.Tangent(t01);
             dot = Vector2.Dot(diff, tangent);
-            // Debug.Log($"dot = {dot}, t0 {t0}, t01 {t01}, t1 {t1}");
             
             if (dot < 0f)
             {
@@ -135,6 +132,7 @@ public class RainManager : MonoBehaviour
     private TriangleSurface _surface;
     private bool _hasSurface;
     private bool _splinesDrawn;
+    private Tuple<Vector3, Vector3> posTanPair = new Tuple<Vector3, Vector3>(Vector3.zero, Vector3.zero);
 
     private SpawnBox SpawnVolume { get; set; }
 
@@ -218,10 +216,11 @@ public class RainManager : MonoBehaviour
 
         foreach (var spline in _splines)
         {
-            var pointAndTangent = spline.GetClosestPoint(ballPos, _surface);
-            if (Vector3.Distance(ballPos, pointAndTangent.Item1) < 5f)
+            posTanPair = spline.GetClosestPoint(ballPos, _surface);
+            
+            if (Vector3.Distance(ballPos, posTanPair.Item1) < 5f)
             {
-                direction += pointAndTangent.Item2;
+                direction += posTanPair.Item2;
             }
         }
         
@@ -264,5 +263,9 @@ public class RainManager : MonoBehaviour
 
         Gizmos.DrawWireCube(SpawnVolume.Center,
             new Vector3(SpawnVolume.Lengths.x, SpawnVolume.Lengths.y, SpawnVolume.Lengths.z));
+        
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawSphere(posTanPair.Item1, 1f);
+        Gizmos.DrawLine(posTanPair.Item1, posTanPair.Item1 + 5f*posTanPair.Item2);
     }
 }

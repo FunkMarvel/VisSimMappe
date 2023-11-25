@@ -111,7 +111,6 @@ public class BallPhysics : MonoBehaviour
                 netForce -= (hit.HitNormal - rollingCoefficient * parallelUnit) * normalForceMagnitude;
                 transform1.position = 0.5f*(hit.Point + nextHit.Point) + Radius * reflectNorm;
             }
-            // Debug.Log($"Normal: {hit.HitNormal}");
 
             // remove physics-script from ball if out of bounds:
             if (!_outOfBounds && Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0f))
@@ -126,12 +125,6 @@ public class BallPhysics : MonoBehaviour
 
             transform1.Translate(_velocity * Time.fixedDeltaTime + (_extraForces/mass) * (Time.fixedDeltaTime * Time.fixedDeltaTime));
             _extraForces = Vector3.zero;
-
-            // log position:
-            // Debug.Log($" Position: {position} | " +
-            //           $"Velocity {_velocity.magnitude:F4} | " +
-            //           $"Acceleration {acceleration.magnitude:F4} | " +
-            //           $"Time since contact {_elapsedTimeSinceContact:F4}");
         }
     }
 

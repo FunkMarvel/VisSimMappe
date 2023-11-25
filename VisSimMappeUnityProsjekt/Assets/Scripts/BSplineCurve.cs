@@ -56,11 +56,6 @@ public class BSplineCurve
         {
             _knotVector.Add(lastKnot+1);
         }
-
-        foreach (var t in _knotVector)
-        {
-            Debug.LogWarning(t);
-        }
     }
 
     public int Degree { get; }
@@ -114,23 +109,7 @@ public class BSplineCurve
 
     public Vector2 Tangent(float t)
     {
-        // var mu = FindKnotInterval(t);
-        //
-        // var diffCP = new List<Vector2>(Degree + 1);
-        // for (var i = 0; i < Degree+1; i++)
-        // {
-        //     diffCP.Add(
-        //         Degree *
-        //         (_controlPoints[i+mu-Degree+1] - _controlPoints[i+mu-Degree]) /
-        //         (_knotVector[i+mu+1] - _knotVector[i+mu-Degree+1])
-        //     );
-        // }
-        //
-        // mu = FindKnotInterval(t, Degree - 1, diffCP, _knotVector.GetRange(1, _knotVector.Count - 2));
-        //
-        // return Eval(t, Degree - 1, mu, diffCP, _knotVector.GetRange(1, _knotVector.Count - 2)).normalized;
-
-        float dt = 0.5f;
+        const float dt = 0.5f;
         if (t < Start)
         {
             t = Start;
