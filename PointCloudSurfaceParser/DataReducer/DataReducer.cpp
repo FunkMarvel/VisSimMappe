@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
 
     std::vector<Eigen::Vector3f> data;
 
+    // sample every hundredth point in file
     while (inFile >> x >> y >> z)
     {
         if (i++ % 100) continue;
@@ -83,6 +84,7 @@ int main(int argc, char* argv[])
         }
     }
 
+    // offset for centering of data
     Eigen::Vector3f offset{0.5f*(bounds.xmax + bounds.xmin), 0.5f*(bounds.ymax + bounds.ymin), 0.5f*(bounds.zmax + bounds.zmin)};
 
     std::ofstream outFile{oFileName};
@@ -97,6 +99,7 @@ int main(int argc, char* argv[])
 
     for (auto vector : data)
     {
+        // write centered data to file
         vector -= offset;
         outFile << "(" << vector.x()*0.5f << ", " << vector.z()*0.5f << ", " << vector.y()*0.5f << ")\n";
     }

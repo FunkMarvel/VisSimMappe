@@ -19,9 +19,11 @@
 struct DataBounds;
 DataBounds readData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataContainer);
 void writeVertexData(const std::string& filePath, const std::vector<std::vector<Eigen::Vector3f>>& dataGrid,
-                     const Eigen::Vector3f& offset, float scaleX, float scaleY, float scaleZ);
+                     float scaleX, float scaleY, float scaleZ);
 void writeIndexFile(const std::string& filePath, int numX, int numY);
 
+/* struct holding data bounds
+ */
 struct DataBounds
 {
     float xmin, xmax, ymin, ymax, zmin, zmax, xExtent, yExtent, zExtent;
@@ -62,6 +64,7 @@ void processData(const std::string& fileName)
         )
     );
 
+    // create 3D list for holding the uniform grid after averaging of data
     std::vector<std::vector<Eigen::Vector3f>> grid(
         numStepsX,
         std::vector<Eigen::Vector3f>(
@@ -113,25 +116,26 @@ void processData(const std::string& fileName)
             if (!buckets[i][j].empty())
             {
                 meanHeight /= static_cast<float>(buckets[i][j].size());
-                grid[i][j] = Eigen::Vector3f{
+                grid[i][j] = Eigen::Vector3f{  // place point of mean height in first corner of grid-square
                     static_cast<float>(i) * stepLength, static_cast<float>(j) * stepLength, meanHeight
-                } - offset;
-                fillMask[i][j] = true;
+                } - offset; // offset to center data on origin
+                fillMask[i][j] = true;  // mark square as completed
             }
         }
     }
 
-    buckets.clear();
+    buckets.clear();  // free no-longer needed memory
 
     for (int i = 0; i < static_cast<int>(grid.size()); ++i)
     {
         for (int j = 0; j < static_cast<int>(grid[0].size()); ++j)
         {
-            if (fillMask[i][j])
+            if (fillMask[i][j])  // skip entries that already have averaged height
             {
                 continue;
             }
 
+            // if a square had no points to average, use average height of neighbours
             int numPoints{};
 
             for (int xn = i - 100; xn <= i + 100; ++xn)
@@ -150,15 +154,15 @@ void processData(const std::string& fileName)
         }
     }
 
-    writeVertexData("../ProcessedData/vertices.txt", grid, Eigen::Vector3f{
-                        0.5f * (bounds.xExtent), 0.5f * (bounds.yExtent),
-                        0.5f * (bounds.zExtent)
-                    }, 0.5f, 0.5f, 0.5f);
+    // write scaled down vertex data to file:
+    writeVertexData("../ProcessedData/vertices.txt", grid, 0.5f, 0.5f, 0.5f);
+
+    // generate and write regular triangle indexation to file:
     writeIndexFile("../ProcessedData/indices.txt", numStepsX, numStepsY);
 }
 
 void writeVertexData(const std::string& filePath, const std::vector<std::vector<Eigen::Vector3f>>& dataGrid,
-                     const Eigen::Vector3f& offset, const float scaleX, const float scaleY, const float scaleZ)
+                     const float scaleX, const float scaleY, const float scaleZ)
 {
     std::ofstream outFile{filePath};
     if (!outFile.is_open())
@@ -168,6 +172,7 @@ void writeVertexData(const std::string& filePath, const std::vector<std::vector<
         throw std::runtime_error(msg);
     }
 
+    // writing vertex data to file
     const size_t numVertices = dataGrid.size() * dataGrid[0].size();
     outFile << numVertices << "\n";
 
@@ -201,7 +206,7 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
     std::vector<std::vector<int>> neighbours(totalTris, std::vector<int>(3, -1));
 
     // loop through grid squares and index each triangle in square:
-#pragma omp parallel for
+#pragma omp parallel for  // done in parallel as iterations are independent of each other
     for (int i = 0; i < numX - 1; i++)
     {
         // useful constant:
@@ -244,6 +249,8 @@ void writeIndexFile(const std::string& filePath, int numX, int numY)
         }
     }
 
+
+    // writing indexation data to file
     outFile << totalTris << "\n";
     std::cout << indices.size() << " " << totalTris << std::endl;
 
@@ -270,6 +277,7 @@ DataBounds readData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataConta
     float zmax = zmin = z;
     int numLines{1};
 
+    // read data from provided filestream and store in provided container-vector.
     while (file >> x >> y >> z)
     {
         numLines++;
@@ -295,6 +303,7 @@ DataBounds readData(std::ifstream& file, std::vector<Eigen::Vector3f>& dataConta
         dataContainer.emplace_back(x, y, z);
     }
 
+    // return bounds of data in struct.
     return DataBounds{xmin, xmax, ymin, ymax, zmin, zmax, xmax - xmin, ymax - ymin, zmax - zmin, numLines};
 }
 
