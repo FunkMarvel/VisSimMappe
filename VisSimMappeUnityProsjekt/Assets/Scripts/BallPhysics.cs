@@ -41,6 +41,8 @@ public class BallPhysics : MonoBehaviour
 
     public float Radius => radius;
 
+    public Vector3 Velocity => _velocity;
+
     /// <summary>
     ///     Setup before first frame.
     /// </summary>
@@ -72,7 +74,7 @@ public class BallPhysics : MonoBehaviour
         var position = transform1.position;
 
         // sets rolling resistance to 0 when not in motion:
-        var rollingCoefficient = _velocity.magnitude > 1e-15f ? rollingResistance : 0;
+        var rollingCoefficient = Velocity.magnitude > 1e-15f ? rollingResistance : 0;
 
         // gravity force, Physics.gravity is the acceleration-vector [0, -9.81, 0]:
         var netForce = Physics.gravity * mass;
@@ -81,7 +83,7 @@ public class BallPhysics : MonoBehaviour
         {
             // get current step and next step contact points:
             var hit = _triangleSurface.GetCollision(position);
-            var nextHit = _triangleSurface.GetCollision(position + _velocity * Time.fixedDeltaTime);
+            var nextHit = _triangleSurface.GetCollision(position + Velocity * Time.fixedDeltaTime);
             _prevContact = nextHit.Point; // store contact point for debug drawing.
 
             var distVec = position - hit.Point;
@@ -91,7 +93,7 @@ public class BallPhysics : MonoBehaviour
             {
                 _elapsedTimeSinceContact += Time.fixedDeltaTime;
 
-                var parallelVelocity = Vector3.ProjectOnPlane(_velocity, hit.HitNormal);
+                var parallelVelocity = Vector3.ProjectOnPlane(Velocity, hit.HitNormal);
                 var parallelUnit = parallelVelocity.normalized;
 
                 var reflectNorm = (hit.HitNormal + nextHit.HitNormal).normalized;
@@ -101,9 +103,9 @@ public class BallPhysics : MonoBehaviour
                     );
 
                 if (bounciness <= 0f && normalChange < 0f) // reflect velocity when switching triangle:
-                    _velocity -= 2 * Vector3.Dot(_velocity, reflectNorm) * reflectNorm;
+                    _velocity = Velocity - 2 * Vector3.Dot(Velocity, reflectNorm) * reflectNorm;
                 else // bouncing when not switching triangle:
-                    _velocity = -bounciness * Vector3.Dot(_velocity, hit.HitNormal) * hit.HitNormal + parallelVelocity;
+                    _velocity = -bounciness * Vector3.Dot(Velocity, hit.HitNormal) * hit.HitNormal + parallelVelocity;
                     
 
                 // add normal-force:
@@ -120,10 +122,9 @@ public class BallPhysics : MonoBehaviour
             }
             
             // integrate position with Forward-Euler:
-            var acceleration = netForce / mass;
-            _velocity += acceleration * Time.fixedDeltaTime;
-
-            transform1.Translate(_velocity * Time.fixedDeltaTime + (_extraForces/mass) * (Time.fixedDeltaTime * Time.fixedDeltaTime));
+            var acceleration = (netForce + _extraForces) / mass;
+            _velocity = Velocity + acceleration * Time.fixedDeltaTime;
+            transform1.Translate(Velocity * Time.fixedDeltaTime);
             _extraForces = Vector3.zero;
         }
     }

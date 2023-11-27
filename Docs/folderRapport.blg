@@ -1,17 +1,17 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'folderRapport.blg'
-[105] biber-MSWIN64:340> INFO - === 
-[136] Biber.pm:419> INFO - Reading 'folderRapport.bcf'
-[269] Biber.pm:979> INFO - Found 4 citekeys in bib section 0
-[293] Biber.pm:4419> INFO - Processing section 0
-[305] Biber.pm:4610> INFO - Looking for bibtex file 'referanser.bib' for section 0
-[347] bibtex.pm:1713> INFO - LaTeX decoding ...
-[358] bibtex.pm:1519> INFO - Found BibTeX data source 'referanser.bib'
-[419] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
-[419] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[419] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
-[434] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
-[434] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[434] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
-[443] bbl.pm:660> INFO - Writing 'folderRapport.bbl' with encoding 'UTF-8'
-[450] bbl.pm:763> INFO - Output to folderRapport.bbl
+[115] biber-MSWIN64:340> INFO - === 
+[152] Biber.pm:419> INFO - Reading 'folderRapport.bcf'
+[292] Biber.pm:979> INFO - Found 5 citekeys in bib section 0
+[318] Biber.pm:4419> INFO - Processing section 0
+[330] Biber.pm:4610> INFO - Looking for bibtex file 'referanser.bib' for section 0
+[373] bibtex.pm:1713> INFO - LaTeX decoding ...
+[386] bibtex.pm:1519> INFO - Found BibTeX data source 'referanser.bib'
+[456] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[457] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[457] Biber.pm:4239> INFO - Sorting list 'apa/apasortcite//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
+[473] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[474] UCollate.pm:68> INFO - Overriding locale 'nb-NO' defaults 'variable = shifted' with 'variable = non-ignorable'
+[474] Biber.pm:4239> INFO - Sorting list 'apa/global//global/global' of type 'entry' with template 'apa' and locale 'nb-NO'
+[485] bbl.pm:660> INFO - Writing 'folderRapport.bbl' with encoding 'UTF-8'
+[493] bbl.pm:763> INFO - Output to folderRapport.bbl

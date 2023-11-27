@@ -178,6 +178,10 @@ MonoBehaviour:
   lineObject: {fileID: 2024438977288680063, guid: f9709e22801c70f4ca86f5107b26935a,
     type: 3}
   ballObject: {fileID: 1576495243}
+  ballCoefficientOfDrag: 0.47
+  flowEffectRadius: 2
+  fluidSpeed: 3
+  fluidDensity: 1000
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

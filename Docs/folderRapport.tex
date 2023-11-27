@@ -294,13 +294,128 @@ Et sett med regulært fordelte punkter i \(xy\)-planet, sentrert rundt origo, ka
 for alle \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Første linjen i filen inneholder antall punkter. Videre er hver koordinat translatert slik at origo er sentrert, og \(y\)- og \(z\)- koordinaten er byttet om for innlesning i Unity \parencite{UnityEngine2023} som bruker et venstrehendt koordinatsystem med positiv \(y\)-akse som oppoverretning.
 
 \subsubsection{Indeksering}
-For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg alle kvadrater hjørner \(\vec{v}_{j + i\cdot n_{y}}\), \(\vec{v}_{(j+1) + i\cdot n_{y}}\), \(\vec{v}_{j + (i+1)\cdot n_{y}}\) og \(\vec{v}_{(j+1) + (i+1)\cdot n_{y}}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Videre er det to trekanter \(T_{2(j + i\cdot (n_{y}-1))}\) og \(T_{2(j + i\cdot (n_{y}-1)) + 1}\) per kvadrat.
+For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg alle kvadrater hjørner \(\vec{v}_{j + i\cdot n_{y}}\), \(\vec{v}_{(j+1) + i\cdot n_{y}}\), \(\vec{v}_{j + (i+1)\cdot n_{y}}\) og \(\vec{v}_{(j+1) + (i+1)\cdot n_{y}}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Videre er det to trekanter \(T_{\text{even}}\) og \(T_{\text{odd}}\) per kvadrat med henholdsvis partallsindeks og oddetallsindeks.
 
-
+Altså kan området deles opp i \((n_{x}-1)\cdot (n_{y}-1)\) antall kvadrater med en partallstrekant
+\begin{align*}
+ 	T_{\text{even}} &= 2(j + i\cdot (n_{y}-1))
+\end{align*} 
+med verteks-indekser
+\begin{align*}
+	j + i\cdot n_{y}, \quad (j+1) + i\cdot n_{y}, \quad j + (i+1)\cdot n_{y},
+\end{align*}
+og nabotrekanter
+\begin{align*}
+	2(j + i\cdot (n_{y}-1)) + 1, \quad 2(j + i\cdot (n_{y}-1)) - 1, \quad  2(j + i\cdot (n_{y}-1)) + 1 - 2(n_{y} - 1),
+\end{align*}
+Hvor første verteks-indeks er motstående første naboindeks, også videre.
+% 2(j + i\cdot (n_{y}-1))
+% 2(j + i\cdot (n_{y}-1)) + 1
 
 \subsection{Ball på trekantflate}
+For å simulere baller lagde jeg klassen \verb+BallPhysics+ som legges til som komponent på en instance av Unitys innebygde sfære-primitiv. Klassen har en referanse til \verb+TriangleSurface+-objektet den skal rulle på. Videre definerer jeg parametere for ballens masse \([\si{\kilogram}]\), radius \([\si{\metre}]\), friksjon [dimensjonsløs] og bounciness [dimensjonsløs].
+
+\subsubsection{Kollisjonsdeteksjon} \label{sec:3:A}
+For å dettektere kollisjon med trekantflaten, så vil ballen kalle \verb+GetCollision+-metoden i \verb+TriangleSurface+ objektet i hver \verb+FixedUpdate+. Ballen gir da posisjonen til senteret sitt \(p\) til \verb+TriangleSurface+, som bruker barysentriske koordinater til å finne trekanten ballen er på. Videre finner \verb+TriangleSurface+ punktet \(s\) på trekanten som er på linje med senteret i ballen langs \(y\)-aksen.
+
+\begin{figure}[H]
+	\centering
+	\label{fig:kollisjon}
+	\includegraphics[scale=0.25]{figs/kollisjon.pdf}
+	\caption{Diagram av kollisjonsdeteksjon. \(p\) er posisjonen til ballens senter, \(s\) er punktet på flaten med samme \(x\)- og \(z\)-koordinat som ballens senter, og \(k\) er punktet på flaten nærmest ballens senter.}
+\end{figure}
+
+For å sjekke om ballen er i kontakt med flaten beregner jeg først punktet \(k\) på flaten som er nærmest ballens senter \(p\)
+\begin{align*}
+	k &= p + \left(\vec{(s-p)}\cdot\hat{n}\right)\hat{n},
+\end{align*}
+og sjekker om differansen \(|p - k|\) er mindre eller lik radiusen \(r\) til ballen. I tilfellet hvor \(|p-k|\leq r\), så er det kollisjon. For å unngå at ballen beveger seg gjennom kollisjonsflaten setter jeg så ballens posisjon til å være i radius avstand fra kontaktpunktet langs enhetsnormalen
+\begin{align*}
+	p_{\text{korrigert}} &= k + r\cdot\hat{n}.
+\end{align*}
+For å simulere spretting endrer jeg ballens hastighet til å bli
+\begin{align*}
+	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - \left(1+b\right)\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n},
+\end{align*}
+hvor \(b\in [0,1]\) er bounciness-parameteren til ballen, og representerer hvor stor brøkdel av normalkomponenten av hastigheten som skal reflekteres ved kollisjon. For \(b = 0\) så mister ballen all hastighet normalt på planet. Hvis \(b=1\) så vil ballen få like stor hastighet normalt på planet som før kollisjonen, men i motsatt retning.
+
+\subsubsection{Glidefysikk}
+For å simulere fysikken på ballen, så finner jeg først alle kreftene på ballen i både tilfellet når den er og ikke er i kontakt med trekantflaten.
+\begin{figure}[H]
+	\centering
+	\label{fig:frilegmediagram}
+	\includegraphics[scale=0.25]{figs/frilegmediagram.pdf}
+	\caption{Frilegmediagram av ballen i både fritt fall, og på trekantflaten, med Unity sitt venstrehendte koordinatsystem tegnet inn.}
+\end{figure}
+
+I begge tilfeller er tyngdekraften på ballen lik
+\begin{align*}
+	\vec{G} &= m\vec{g} \\
+	&= m
+	\begin{pmatrix}
+		0 \\
+		\SI{-9.81}{\metre\per\second^{2}} \\
+		0
+	\end{pmatrix},
+\end{align*}
+hvor \(m\) er ballens masse i kilogram.
+
+I tilfellet hvor ballen er i kontakt med trekantflaten, så opplever ballen en normalkraft
+\begin{align*}
+	\vec{N} &= -\left(\vec{G}\cdot\hat{n}\right)\hat{n},
+\end{align*}
+hvor \(\hat{n}\) er enhetsnormalvektoren til trekanten ballen er i kontakt med. Videre modelerer jeg også en glidefriksjonskraft
+\begin{align*}
+	\vec{F}_{f} &= -\mu |\vec{N}| \hat{v}_{\parallel},
+\end{align*}
+hvor \(\mu\) er rollingResistance-parameteren til \verb+BallPhysics+-klassen, og \(\hat{v}_{\parallel}\) er en dimensjonsløs enhetsvektor parallel med hastigheten til ballen projisert på trekanten ballen befinner seg på, slik at
+\begin{align*}
+	\hat{v}_{\parallel} &= \frac{\vec{v}_{\parallel}}{|\vec{v}_{\parallel}|}
+	= \frac{\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}}{|\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}|}.
+\end{align*}
+Her er \(\vec{v}\) hastighetsvektoren til ballen. Friksjonskraften virker da alltid mot bevegelsesretningen langs flaten ballen er i kontakt med.
+
+Jeg finner så akselerasjonen til ballen ved Newton's andre lov, slik at
+\begin{align*}
+	\vec{a} &= \frac{\vec{G}+\vec{N}+\vec{F}_{f}}{m},
+\end{align*}
+og integrerer hastighet \(\vec{v}\) og posisjon \(\vec{p}\) med Forward-Euler algoritmen
+\begin{align*}
+	\vec{v}_{t+\Delta t} &= \vec{v}_{t} + \vec{a}\cdot\Delta t, \\
+	p_{t+\Delta t} &= p_{t} + \vec{v}_{t+\Delta t}\cdot \Delta t. 
+\end{align*}
+
+\subsubsection{Rulling på flere trekanter}
+I tilfellet hvor ballen krysser fra en trekant til neste, så har jeg implementert to separate måter å håndtere det på. I tilfellet hvor ballen har en bounciness som er større enn \(0\), så håndteres all kollisjon med den delvise refleksjonen beskrevet i underseksjon '\hyperref[sec:3:A]{Kollisjonsdeteksjon}'
+\begin{align*}
+	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - \left(1+b\right)\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n}.
+\end{align*}
+
+I tilfellet hvor ballens bounciness er satt til å være \(0\), så bruker jeg i stedet en refleksjon av planet med normal lik gjennomsnittsnormalen til de to involverte trekantene.
+\begin{align*}
+	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - 2\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n},
+\end{align*}
+hvor
+\begin{align*}
+	\hat{n} = \frac{\hat{n}_{\text{før}}+\hat{n}_{\text{etter}}}{|\hat{n}_{\text{før}}+\hat{n}_{\text{etter}}|}.
+\end{align*}
+Dette bevarer farten til ballen over trekantbyttet. Jeg har også valgt å kun gjøre denne refleksjonen i tilfellet hvor
+\begin{align*}
+	\left(\hat{n}_{\text{før}}\cross \hat{n}_{\text{etter}}\right)\cdot\left(\hat{n}_{\text{før}}\cross \hat{v}_{\parallel}\right) < 0,
+\end{align*}
+hvor \(\hat{v}_{\parallel}\) er enhetsvektoren i samme retning som komponenten av ballens hastighet som er parallel med trekanten.
+Betingelsen over, sørger for at refleksjonen kun skjer hvis ballen beveger seg over et konkavt trekantbytte. Derimot, hvis trekantbyttet er konvekst, så vil ballens hastighet ikke reflekteres. Dette gjør jeg slik at for en vilkårlig trekantflate, så vil ballen oppføre seg som om flaten er glatt for konvekse skjøter, men være i stand til å forlate flaten og komme i fritt fall ved konvekse skjøter.
+
 \subsection{B-Splines og simulering av vassdrag}
-\parencite[s.7]{alexanderMovingBouldersFlash2016}
+For å simulere vassdrag som produseres under ekstremnedbør, modelerer jeg et sett med enkeltregndråper i form av baller som følger fysikken beskrevet i forrige sekjson. Videre får hver ball en tilfeldig generert startposisjon innenfor et valgt volum over terrenget. Jeg velger så å logge posisjonen til hver av regndråpene et gitt antall ganger per tid, over en gitt tidsperiode. De lagrede posisjonene blir så brukt som kontrollpunkter i \(xz\)-planet for en \(2D\), kvadratisk B-Spline som skal representere enkeltdråpenes bevegelse horisontalt langs terrenget. Splinen kan så tegnes ved å evaluere punkter for \(n_{t}\) uniformt fordelte verdier av parameteren \(t\), som jeg tegner rette linjer mellom. De tegnede punktene løftes opp på terrengoverflaten ved å beregne høyde med barysentriske koordinater.
+
+For å simulere effekten av et slik vassdrag på en kampestein eller annet løsmateriale, så bruker jeg likningen for motstandskraft i fluid
+\begin{align*}
+	\vec{F}_{D} &= \frac{1}{2}C_{D}\rho A |\vec{v}|\vec{v},
+\end{align*}
+hvor \(C_{D}\) er dragkoeffisienten til legemet som påvirkes, \(\rho\) er tettheten til fluidet, \(A\) er tversnittarealet som står normalt på fluidets bevegelsesretning, og \(\vec{v}\) er fluidets hastighet relativt til legemet \parencite[s.7]{alexanderMovingBouldersFlash2016}. I min simulasjon bruker jeg en ball med masse \(m_{b} = \SI{50}{\kilogram}\) og radius \(r_{b} = \SI{1}{\metre}\) plasert på terrenget. Jeg har valgt en dragkoeffisient på \(C_{D} = 0.5\) siden det gjelder for sfærer i mange forskjellige typer flyt \parencite{hallDragSphere2023}. Videre har ballen et tversnittareal \(A = \pi r_{b}^{2}\).
+
+
 \section{Resultater}
 \section{Diskusjon}
 \section{Konklusjon}

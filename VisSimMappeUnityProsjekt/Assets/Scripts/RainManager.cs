@@ -13,6 +13,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public struct SpawnBox
@@ -148,7 +149,7 @@ public class RainManager : MonoBehaviour
         }
 
         // simulate force on ball when splines have been drawn:
-        if (_splinesDrawn) SimulateExtremeWeather();
+        if (_splinesDrawn && _hasBall) SimulateExtremeWeather();
     }
 
     // debug visualizations
@@ -167,11 +168,17 @@ public class RainManager : MonoBehaviour
 
     private void SimulateExtremeWeather()
     {
+        if (!_hasBall || _ball == null)
+        {
+            _hasBall = false;
+            return;
+        }
         // access ball size and position:
         var ballPos = _ball.transform.position;
         var direction = Vector3.zero;
         var rad = _ball.Radius;
 
+        var hit = _surface.GetCollision(ballPos);
         foreach (var spline in _splines)
         {
             // find closest point on splines
@@ -181,23 +188,26 @@ public class RainManager : MonoBehaviour
             if (Vector3.Distance(ballPos, posTanPair.Item1) < flowEffectRadius) direction += posTanPair.Item2;
         }
 
+        var relVel = (direction.normalized * fluidSpeed - _ball.Velocity);
+        // relVel = Vector3.ProjectOnPlane(relVel, hit.HitNormal);
+
         // calculate drag-force on ball and add it to ball-object's internal physics:
-        var force = DragEquation(direction, fluidDensity, fluidSpeed, ballCoefficientOfDrag, Mathf.PI * rad * rad);
+        var force = DragEquation(relVel, fluidDensity, ballCoefficientOfDrag, Mathf.PI * rad * rad);
         _ball.AddForce(force);
     }
 
     /// <summary>
     ///     Calculate force on object in water stream.
     /// </summary>
-    /// <param name="direction">Vector3 - direction of force</param>
+    /// <param name="relativeVelocity">Vector3 - direction of force</param>
     /// <param name="rho">float - density of fluid</param>
     /// <param name="v">float - speed of fluid</param>
     /// <param name="Cd">float - drag-coefficient of object</param>
     /// <param name="A">float - cross-sectional area of object</param>
     /// <returns>Vector3 - Drag force on object</returns>
-    private static Vector3 DragEquation(Vector3 direction, float rho, float v, float Cd, float A)
+    private static Vector3 DragEquation(Vector3 relativeVelocity, float rho, float Cd, float A)
     {
-        return 0.5f * rho * v * v * Cd * A * direction.normalized;
+        return 0.5f * rho * Cd * A * relativeVelocity.magnitude * relativeVelocity;
     }
 
     private void DrawBSpline()

@@ -177,6 +177,48 @@
       \verb https://onlinelibrary.wiley.com/doi/10.1111/cgf.12802
       \endverb
     \endentry
+    \entry{hallDragSphere2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ce2d4e4b4d89664bcb3a2377d1afac27}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={Nancy},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{fullhash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{bibnamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authorbibnamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authornamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authorfullhash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The aerodynamic~drag~on an object depends on several~factors, including the~shape,~size,~inclination,~and~flow conditions.~All of these factors are}
+      \field{journaltitle}{Glenn Research Center | NASA}
+      \field{langid}{american}
+      \field{month}{11}
+      \field{title}{Drag of a {{Sphere}}}
+      \field{urlday}{27}
+      \field{urlmonth}{11}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb C:\Users\aande\Zotero\storage\YACHRZGH\drag-of-a-sphere.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-of-a-sphere/
+      \endverb
+      \verb{url}
+      \verb https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-of-a-sphere/
+      \endverb
+    \endentry
     \entry{isenburgLASzip2019}{misc}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=57822d84284814c94cd9254f0539d72f}{%
@@ -396,6 +438,48 @@
       \endverb
       \verb{url}
       \verb https://onlinelibrary.wiley.com/doi/10.1111/cgf.12802
+      \endverb
+    \endentry
+    \entry{hallDragSphere2023}{misc}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=ce2d4e4b4d89664bcb3a2377d1afac27}{%
+           family={Hall},
+           familyi={H\bibinitperiod},
+           given={Nancy},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{fullhash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{bibnamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authorbibnamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authornamehash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \strng{authorfullhash}{ce2d4e4b4d89664bcb3a2377d1afac27}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The aerodynamic~drag~on an object depends on several~factors, including the~shape,~size,~inclination,~and~flow conditions.~All of these factors are}
+      \field{journaltitle}{Glenn Research Center | NASA}
+      \field{langid}{american}
+      \field{month}{11}
+      \field{title}{Drag of a {{Sphere}}}
+      \field{urlday}{27}
+      \field{urlmonth}{11}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{urldateera}{ce}
+      \verb{file}
+      \verb C:\Users\aande\Zotero\storage\YACHRZGH\drag-of-a-sphere.html
+      \endverb
+      \verb{urlraw}
+      \verb https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-of-a-sphere/
+      \endverb
+      \verb{url}
+      \verb https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/drag-of-a-sphere/
       \endverb
     \endentry
     \entry{isenburgLASzip2019}{misc}{}
