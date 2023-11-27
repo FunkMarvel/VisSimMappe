@@ -1,5 +1,11 @@
 \babel@toc {norsk}{}\relax 
-\contentsline {section}{Introduksjon}{2}{section*.3}%
-\contentsline {section}{Metode}{2}{section*.4}%
-\contentsline {section}{Resultater}{2}{section*.5}%
-\contentsline {section}{Konklusjon}{2}{section*.6}%
+\contentsline {section}{Introduksjon}{1}{section*.2}%
+\contentsline {section}{Metode}{2}{section*.3}%
+\contentsline {subsection}{Punktsky og triangulering}{2}{section*.4}%
+\contentsline {subsubsection}{Vertekser}{2}{section*.5}%
+\contentsline {subsubsection}{Indeksering}{3}{section*.6}%
+\contentsline {subsection}{Ball på trekantflate}{3}{section*.7}%
+\contentsline {subsection}{B-Splines og simulering av vassdrag}{3}{section*.8}%
+\contentsline {section}{Resultater}{3}{section*.9}%
+\contentsline {section}{Diskusjon}{3}{section*.10}%
+\contentsline {section}{Konklusjon}{3}{section*.11}%

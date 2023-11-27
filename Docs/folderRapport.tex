@@ -1,4 +1,4 @@
-\documentclass[norsk, stu, 12pt, a4paper]{apa7}  % defines the basic parameters of the document
+\documentclass[norsk, doc, 12pt, a4paper]{apa7}  % defines the basic parameters of the document
 
 % if you want a single-column, remove reprint
 
@@ -243,21 +243,66 @@
 \addbibresource{referanser.bib}
 
 \title{Mappeoppgave Visualisering og Simulering}   % self-explanatory
-\author{Anders P. Åsbø | kandidat.nr: 843}               % self-explanatory
+\author{Anders P. Åsbø | kandidat.nr.: 843}               % self-explanatory
 \affiliation{Høgskolen i Innlandet}
-\duedate{\today}                             % self-explanatory
-\course{2VSIM101}
-\professor{---------------------}
+\date{\today}                             % self-explanatory
+\shorttitle{2VSIM101 | kandidat.nr.: 843}
 %\noaffiliation                            % ignore this
+
+
+\abstract{ }
 
 \begin{document}
 \maketitle                                % creates the title, author, date
 \tableofcontents
 
 \section{Introduksjon}
-Beep beep boop boop \parencite[s.7]{Alexander2016}
+Et viktig aspekt av moderne beredskap er forståelsen av ekstremvær og dets effekt på lokal natur. Derfor er det nødvendig å kunne lage digitale representasjoner av virkelige terreng, samt simulere fysikk ved bruk av datamaskin på slike representasjoner. I denne rapporten presenterer jeg en metode for å modellere, samt simulere effekten av nedbør på terreng konstruert fra punktskydata.
+
+Rapporten fokuserer på hvordan lage en regulært indeksert trekantflate som representerer terrenget, samt hvordan bruke B-Splines til å kartlegge vassdrag som dannes ved ekstrem nedbør, og hvordan simulere effekten et slik vassdrag har på løsmateriale.
+
 \section{Metode}
+\subsection{Punktsky og triangulering}
+\subsubsection{Vertekser} \label{M:1:1}
+Moderne målinger av terreng gjøres med LiDAR, og resulterer i rådata i form av en uorganisert samling punkter i \(\R^{3}\) relativt til et valgt koordinatsystem \parencite{bergerSurveySurfaceReconstruction2017}. Jeg har valgt å laste ned punktdata fra Kartverket sin database '\url{hoydedata.no}' i '.laz'-format, som jeg så konverterer til en rentekst-fil ved hjelp av programvaren 'LASzip' \parencite{isenburgLASzip2019}. Den resulterende tekstfilen inneholder da \(n\) antall punkter fordelt på formen
+\begin{align*}
+ x_{0} \quad &y_{0} \quad z_{0} \\
+ x_{1} \quad &y_{1} \quad z_{1} \\
+ ... \quad &... \quad ... \\
+ x_{n-1} \quad &y_{n-1} \quad z_{n-1}
+\end{align*}
+hvor hver linje svarer til et punkt. For å kunne visualisere punktskyen som en sammenhengende overflate, så konstruerer jeg et regulært rutenett i \(xy\)-planet med dimensjoner \(\textbf{width} = x_{\text{max}} - x_{\text{min}}\) og \(\textbf{height} = y_{\text{max}} - y_{\text{min}}\). Hvor \(x_{\text{max}}\), \(x_{\text{min}}\), \(y_{\text{max}}\) og \(y_{\text{min}}\) er henholdsvis største og minste verdi for \(x\)- og \(y\)-koordinatene til punktene. Jeg velger så at hver rute i det regulære rutenettet er et kvadrat med areal \(\SI{10}{\metre\squared}\) (steglengde \(h = \SI{10}{\metre}\)), slik at \(n_{x} = \lceil \textbf{width}/h \rceil\) og \(n_{y} = \lceil \textbf{height}/h \rceil\) er henholdsvis antall ruter i \(x-\) og \(y-retning\). Hvert punkt kan så sorteres inn i ruten som dekker \(x\)- og \(y\)-koordinatene dens ved å regne ut rad- og kolonneindeks \(i\) og \(j\) i rutenettet som
+\begin{align*}
+	i &= \lfloor \frac{x - x_{\text{min}}}{h} \rfloor \\
+	j &= \lfloor \frac{y - y_{\text{min}}}{h} \rfloor.
+\end{align*}
+For hver rute kan det regnes ut en gjennomsnittlig \(z\)-koordinat ved å ta gjennomsnittet av \(z\)-koordinatene til alle punktene med tilsvarende rad- og kolonneindeks
+\begin{align*}
+	\bar{z}_{i,j} &= \frac{1}{n_{i,j}}\sum_{k = 0}^{n_{i,j}}z_{i,j,k},
+\end{align*}
+hvor \(n_{i,j}\) er antall punkter innenfor ruten som tilsvarer rad \(i\) kolonne \(j\). Hvis en rute skulle vise seg å ikke inneholde punkter, så kan gjennomsnittshøyden i den ruten regnes som gjennomsnittet av gjennomsnittshøydene til naborutene
+\begin{align*}
+	\bar{z}_{i,j} &= \frac{1}{8}\sum_{k=i-1}^{i+1}\sum_{\substack{l=j-1 \\ k\neq i \lor l\neq j}}^{j+1} \bar{z}_{k,l}.
+\end{align*}
+Hvis dette må regnes ut for en rute på kanten av rutenettet, så må alle naboer som ikke eksisterer ekskluderes fra beregningen over.
+Et sett med regulært fordelte punkter i \(xy\)-planet, sentrert rundt origo, kan skrives til fil på formatet
+\begin{align*}
+	&n_{x}\cdot n_{y} \\
+	&(i\cdot h - n_{x}\cdot h/2,\quad \bar{z}_{i,j} - (z_{\text{max} - z_{\text{min}}})/2,\quad j\cdot h - n_{y}\cdot h/2) \\
+	&...
+\end{align*}
+for alle \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Første linjen i filen inneholder antall punkter. Videre er hver koordinat translatert slik at origo er sentrert, og \(y\)- og \(z\)- koordinaten er byttet om for innlesning i Unity \parencite{UnityEngine2023} som bruker et venstrehendt koordinatsystem med positiv \(y\)-akse som oppoverretning.
+
+\subsubsection{Indeksering}
+For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg alle kvadrater hjørner \(\vec{v}_{j + i\cdot n_{y}}\), \(\vec{v}_{(j+1) + i\cdot n_{y}}\), \(\vec{v}_{j + (i+1)\cdot n_{y}}\) og \(\vec{v}_{(j+1) + (i+1)\cdot n_{y}}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Videre er det to trekanter \(T_{2(j + i\cdot (n_{y}-1))}\) og \(T_{2(j + i\cdot (n_{y}-1)) + 1}\) per kvadrat.
+
+
+
+\subsection{Ball på trekantflate}
+\subsection{B-Splines og simulering av vassdrag}
+\parencite[s.7]{alexanderMovingBouldersFlash2016}
 \section{Resultater}
+\section{Diskusjon}
 \section{Konklusjon}
 
 \printbibliography
