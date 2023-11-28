@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public struct SpawnBox
@@ -56,14 +55,12 @@ public class RainManager : MonoBehaviour
     [SerializeField] [Min(1)] private int numPointsToDraw;
     [SerializeField] private GameObject lineObject;
 
-    [Header("Fluid physics on ball")] [SerializeField]
-    private GameObject ballObject;
-
+    [Header("Ball")] [SerializeField] private GameObject ballObject;
+    [Header("Fluid physics on ball")]
     [SerializeField] [Min(0f)] private float ballCoefficientOfDrag = 6f;
     [SerializeField] [Min(0f)] private float flowEffectRadius = 5f;
     [SerializeField] [Min(0f)] private float fluidSpeed = 6f;
     [SerializeField] [Min(0f)] private float fluidDensity = 1000;
-    private BallPhysics _ball;
 
     private List<GameObject> _drops;
     private bool _hasBall;
@@ -73,13 +70,18 @@ public class RainManager : MonoBehaviour
     private float _sampleTimer;
     private List<SplineData> _splines = new();
     private bool _splinesDrawn;
-    private bool _simStarted;
 
     private TriangleSurface _surface;
     private float _timer;
     private Tuple<Vector3, Vector3> posTanPair = new(Vector3.zero, Vector3.zero);
 
     private SpawnBox SpawnVolume { get; set; }
+
+    public bool SimStarted { get; private set; }
+
+    public BallPhysics Ball { get; private set; }
+
+    public bool HasBall => _hasBall;
 
     private void Awake()
     {
@@ -90,9 +92,6 @@ public class RainManager : MonoBehaviour
             _surface = surfaceObject.GetComponent<TriangleSurface>();
             _hasSurface = _surface != null;
         }
-
-        _hasBall = ballObject != null;
-        if (_hasBall) _ball = ballObject.GetComponent<BallPhysics>();
 
         // ensure enough control-points for desired splines
         numControlPoints = numControlPoints > degree + 1 ? numControlPoints : degree + 1;
@@ -122,7 +121,7 @@ public class RainManager : MonoBehaviour
                 Random.Range(SpawnVolume.ZLimits.x, SpawnVolume.ZLimits.y)
             );
             var ball = obj.GetComponent<BallPhysics>();
-            if (ball != null && _hasSurface) ball.triangleSurfaceRef = surfaceObject;
+            if (ball != null && _hasSurface) ball.Surface = surfaceObject;
             obj.transform.position = pos;
             _drops.Add(obj);
             _splines.Add(new SplineData());
@@ -130,13 +129,13 @@ public class RainManager : MonoBehaviour
 
         // start timer:
         _sampleTimer = simDuration;
-        _simStarted = true;
+        SimStarted = true;
         Invoke(nameof(DrawBSpline), simDuration + Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()
     {
-        if (!_simStarted) return;
+        if (!SimStarted) return;
         // time simulation and log positions.
         if (_timer < simDuration && _sampleTimer > _sampleTime)
         {
@@ -155,7 +154,7 @@ public class RainManager : MonoBehaviour
         }
 
         // simulate force on ball when splines have been drawn:
-        if (_splinesDrawn && _hasBall) SimulateExtremeWeather();
+        if (_splinesDrawn && HasBall) SimulateExtremeWeather();
     }
 
     // debug visualizations
@@ -174,15 +173,10 @@ public class RainManager : MonoBehaviour
 
     private void SimulateExtremeWeather()
     {
-        if (!_hasBall || _ball == null)
-        {
-            _hasBall = false;
-            return;
-        }
         // access ball size and position:
-        var ballPos = _ball.transform.position;
+        var ballPos = Ball.transform.position;
         var direction = Vector3.zero;
-        var rad = _ball.Radius;
+        var rad = Ball.Radius;
 
         var hit = _surface.GetCollision(ballPos);
         foreach (var spline in _splines)
@@ -194,12 +188,12 @@ public class RainManager : MonoBehaviour
             if (Vector3.Distance(ballPos, posTanPair.Item1) < flowEffectRadius) direction += posTanPair.Item2;
         }
 
-        var relVel = (direction.normalized * fluidSpeed - _ball.Velocity);
+        var relVel = (direction.normalized * fluidSpeed - Ball.Velocity);
         // relVel = Vector3.ProjectOnPlane(relVel, hit.HitNormal);
 
         // calculate drag-force on ball and add it to ball-object's internal physics:
         var force = DragEquation(relVel, fluidDensity, ballCoefficientOfDrag, Mathf.PI * rad * rad);
-        _ball.AddForce(force);
+        Ball.AddForce(force);
     }
 
     /// <summary>
@@ -230,5 +224,26 @@ public class RainManager : MonoBehaviour
 
         print("Drew splines");
         _splinesDrawn = true;
+    }
+
+    public void SpawnBall(Vector3 pos)
+    {
+        if (HasBall)
+        {
+            Destroy(Ball.gameObject);
+        }
+        
+        var newBall = Instantiate(ballObject, pos, Quaternion.identity);
+        _hasBall = newBall != null;
+        if (!HasBall) return;
+        
+        var ball = newBall.GetComponent<BallPhysics>();
+        _hasBall = ball != null;
+        
+        if (!HasBall) return;
+        ball.Surface = surfaceObject;
+        ball.transform.parent = transform;
+        
+        Ball = ball;
     }
 }

@@ -43,6 +43,18 @@ public class BallPhysics : MonoBehaviour
 
     public Vector3 Velocity => _velocity;
 
+    public GameObject Surface
+    {
+        get => triangleSurfaceRef;
+        set
+        {
+            _hasSurfaceRef = value != null;
+            triangleSurfaceRef = value;
+            _triangleSurface = triangleSurfaceRef.GetComponent<TriangleSurface>();
+            _hasSurfaceRef = _triangleSurface != null;
+        }
+    }
+
     /// <summary>
     ///     Setup before first frame.
     /// </summary>
@@ -79,54 +91,52 @@ public class BallPhysics : MonoBehaviour
         // gravity force, Physics.gravity is the acceleration-vector [0, -9.81, 0]:
         var netForce = Physics.gravity * mass;
 
-        if (_hasSurfaceRef)
+        if (!_hasSurfaceRef) return;
+        // get current step and next step contact points:
+        var hit = _triangleSurface.GetCollision(position);
+        var nextHit = _triangleSurface.GetCollision(position + Velocity * Time.fixedDeltaTime);
+        _prevContact = nextHit.Point; // store contact point for debug drawing.
+
+        var distVec = position - hit.Point;
+        var dist = distVec.magnitude;
+
+        if (dist <= Radius) // check if actually colliding
         {
-            // get current step and next step contact points:
-            var hit = _triangleSurface.GetCollision(position);
-            var nextHit = _triangleSurface.GetCollision(position + Velocity * Time.fixedDeltaTime);
-            _prevContact = nextHit.Point; // store contact point for debug drawing.
+            _elapsedTimeSinceContact += Time.fixedDeltaTime;
 
-            var distVec = position - hit.Point;
-            var dist = distVec.magnitude;
+            var parallelVelocity = Vector3.ProjectOnPlane(Velocity, hit.HitNormal);
+            var parallelUnit = parallelVelocity.normalized;
 
-            if (dist <= Radius) // check if actually colliding
-            {
-                _elapsedTimeSinceContact += Time.fixedDeltaTime;
+            var reflectNorm = (hit.HitNormal + nextHit.HitNormal).normalized;
+            var normalChange = Vector3.Dot(
+                Vector3.Cross(hit.HitNormal, nextHit.HitNormal),
+                Vector3.Cross(hit.HitNormal, parallelUnit).normalized
+            );
 
-                var parallelVelocity = Vector3.ProjectOnPlane(Velocity, hit.HitNormal);
-                var parallelUnit = parallelVelocity.normalized;
-
-                var reflectNorm = (hit.HitNormal + nextHit.HitNormal).normalized;
-                var normalChange = Vector3.Dot(
-                    Vector3.Cross(hit.HitNormal, nextHit.HitNormal),
-                    Vector3.Cross(hit.HitNormal, parallelUnit).normalized
-                    );
-
-                if (bounciness <= 0f && normalChange < 0f) // reflect velocity when switching triangle:
-                    _velocity = Velocity - 2 * Vector3.Dot(Velocity, reflectNorm) * reflectNorm;
-                else // bouncing when not switching triangle:
-                    _velocity = -bounciness * Vector3.Dot(Velocity, hit.HitNormal) * hit.HitNormal + parallelVelocity;
+            if (bounciness <= 0f && normalChange < 0f) // reflect velocity when switching triangle:
+                _velocity = Velocity - 2 * Vector3.Dot(Velocity, reflectNorm) * reflectNorm;
+            else // bouncing when not switching triangle:
+                _velocity = -bounciness * Vector3.Dot(Velocity, hit.HitNormal) * hit.HitNormal + parallelVelocity;
                     
 
-                // add normal-force:
-                var normalForceMagnitude = Vector3.Dot(netForce, hit.HitNormal);
-                netForce -= (hit.HitNormal - rollingCoefficient * parallelUnit) * normalForceMagnitude;
-                transform1.position = 0.5f*(hit.Point + nextHit.Point) + Radius * reflectNorm;
-            }
-
-            // remove physics-script from ball if out of bounds:
-            if (!_outOfBounds && Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0f))
-            {
-                _outOfBounds = true;
-                Destroy(this);
-            }
-            
-            // integrate position with Forward-Euler:
-            var acceleration = (netForce + _extraForces) / mass;
-            _velocity = Velocity + acceleration * Time.fixedDeltaTime;
-            transform1.Translate(Velocity * Time.fixedDeltaTime);
-            _extraForces = Vector3.zero;
+            // add normal-force:
+            var normalForceMagnitude = Vector3.Dot(netForce, hit.HitNormal);
+            netForce -= (hit.HitNormal - rollingCoefficient * parallelUnit) * normalForceMagnitude;
+            transform1.position = 0.5f*(hit.Point + nextHit.Point) + Radius * reflectNorm;
         }
+
+        // remove physics-script from ball if out of bounds:
+        if (!_outOfBounds && Mathf.Approximately(hit.HitNormal.sqrMagnitude, 0f))
+        {
+            _outOfBounds = true;
+            Destroy(this);
+        }
+            
+        // integrate position with Forward-Euler:
+        var acceleration = (netForce + _extraForces) / mass;
+        _velocity = Velocity + acceleration * Time.fixedDeltaTime;
+        transform1.Translate(Velocity * Time.fixedDeltaTime);
+        _extraForces = Vector3.zero;
     }
 
     public void AddForce(Vector3 force)

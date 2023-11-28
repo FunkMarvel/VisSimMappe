@@ -29,6 +29,7 @@ public class TriangleSurface : MonoBehaviour
     private float _resolution = 5.0f;
     private TriangleData _currentTriangle; // for keeping track of ball.
     private MeshBounds _bounds;
+    private BoxCollider _XZplane;
 
     // for checking if mesh has been generated.
     private bool _hasMesh;
@@ -54,6 +55,10 @@ public class TriangleSurface : MonoBehaviour
         }
 
         _currentTriangle = Triangles[0];
+
+        _XZplane = gameObject.AddComponent<BoxCollider>();
+        _XZplane.center = transform.position;
+        _XZplane.size = new Vector3(_bounds.Width, 0.1f, _bounds.Height);
     }
 
     private void OnDrawGizmos()
