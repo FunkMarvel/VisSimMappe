@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Contact.cs" />
      <Compile Include="Assets\Scripts\BallPhysics.cs" />
      <Compile Include="Assets\Scripts\RainManager.cs" />
+     <Compile Include="Assets\Scripts\UIManager.cs" />
      <Folder Include="Assets" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <Folder Include="Assets\VertexData" />

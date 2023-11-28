@@ -73,6 +73,7 @@ public class RainManager : MonoBehaviour
     private float _sampleTimer;
     private List<SplineData> _splines = new();
     private bool _splinesDrawn;
+    private bool _simStarted;
 
     private TriangleSurface _surface;
     private float _timer;
@@ -103,11 +104,14 @@ public class RainManager : MonoBehaviour
 
         _drops = new List<GameObject>(numRainDrops);
         _splines = new List<SplineData>(numRainDrops);
+    }
 
+    public void StartRain()
+    {
         // spawn rain at random positions within spawn-volume:
         for (var i = 0; i < numRainDrops; i++)
         {
-            var obj = Instantiate(rainDropPrefab, trans, true);
+            var obj = Instantiate(rainDropPrefab, transform, true);
 
             if (obj == null)
                 continue;
@@ -126,11 +130,13 @@ public class RainManager : MonoBehaviour
 
         // start timer:
         _sampleTimer = simDuration;
+        _simStarted = true;
         Invoke(nameof(DrawBSpline), simDuration + Time.fixedDeltaTime);
     }
 
     private void FixedUpdate()
     {
+        if (!_simStarted) return;
         // time simulation and log positions.
         if (_timer < simDuration && _sampleTimer > _sampleTime)
         {
@@ -201,7 +207,6 @@ public class RainManager : MonoBehaviour
     /// </summary>
     /// <param name="relativeVelocity">Vector3 - direction of force</param>
     /// <param name="rho">float - density of fluid</param>
-    /// <param name="v">float - speed of fluid</param>
     /// <param name="Cd">float - drag-coefficient of object</param>
     /// <param name="A">float - cross-sectional area of object</param>
     /// <returns>Vector3 - Drag force on object</returns>
@@ -212,10 +217,14 @@ public class RainManager : MonoBehaviour
 
     private void DrawBSpline()
     {
+        foreach (var drop in _drops)
+        {
+            drop.SetActive(false);
+        }
         foreach (var spline in _splines)
         {
             spline.GenerateSpline(degree);
-            spline.Line = Instantiate(lineObject).GetComponent<LineRenderer>();
+            spline.Line = Instantiate(lineObject, transform, true).GetComponent<LineRenderer>();
             spline.DrawSpline(numPointsToDraw, _surface);
         }
 
