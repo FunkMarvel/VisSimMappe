@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  29 NOV 2023 20:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  29 NOV 2023 22:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1101,7 +1101,7 @@ Package caption Info: New subtype `subtable' on input line 238.
 (F:\MikTex\tex/latex/xpatch\xpatch.sty
 Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 40.
+Package hyperref Info: Option `colorlinks' set `true' on input line 39.
 
 (F:\MikTex\tex/latex/thmtools\thmtools.sty
 Package: thmtools 2023/05/04 v0.76
@@ -1187,7 +1187,7 @@ Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
 
 
 Class apa7 Warning: Deprecated: see documentation for \authorsaffiliations on i
-nput line 256.
+nput line 255.
 
 \c@NumberOfAffiliations=\count498
 Package csquotes Info: Checking for multilingual support...
@@ -1197,24 +1197,24 @@ Package csquotes Info: Redefining alias 'default' -> 'norsk'.
 (folderRapport.aux)
 \openout1 = `folderRapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 264.
-LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 263.
+LaTeX Font Info:    ... okay on input line 263.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1271,14 +1271,14 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (F:\MikTex\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 264.
+Package hyperref Info: Link coloring ON on input line 263.
  (folderRapport.out)
 (folderRapport.out)
 \@outlinefile=\write6
 \openout6 = `folderRapport.out'.
 
 Class apa7 Info: Language definition file config/APA7norsk.txt not found on inp
-ut line 264.
+ut line 263.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
@@ -1307,8 +1307,8 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'folderRapport.bbl' found.
  (folderRapport.bbl)
-Package biblatex Info: Reference section=0 on input line 264.
-Package biblatex Info: Reference segment=0 on input line 264.
+Package biblatex Info: Reference section=0 on input line 263.
+Package biblatex Info: Reference segment=0 on input line 263.
 \c@lstlisting=\count505
 
 
@@ -1323,43 +1323,43 @@ Package siunitx Warning: Detected the "physics" package:
 (siunitx)                to your preamble.
 
 Package translations Info: no dictionary file `translations-basic-dictionary-no
-rwegian.trsl' found. on input line 264.
-Class apa7 Info: Keywords not defined on input line 265.
+rwegian.trsl' found. on input line 263.
+Class apa7 Info: Keywords not defined on input line 264.
 Using title for running head
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-65.
+64.
 (F:\MikTex\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-65.
+64.
  (F:\MikTex\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-265.
+264.
 
 (F:\MikTex\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-265.
+264.
  (F:\MikTex\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10.95> on input line 265.
+(Font)              <10.95> on input line 264.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 265.
+(Font)              <8> on input line 264.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 265.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 265
+(Font)              <6> on input line 264.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 264
 .
 
 (F:\MikTex\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 265
+LaTeX Font Info:    Trying to load font information for U+msb on input line 264
 .
  (F:\MikTex\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1372,112 +1372,142 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {C:/Users/aande/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{F:/MikTex/fon
 ts/enc/dvips/lm/lm-ec.enc}]
-<figs/PointGrid.png, id=114, 1047.16219pt x 618.81187pt>
+<figs/PointGrid.png, id=131, 1047.16219pt x 618.81187pt>
 File: figs/PointGrid.png Graphic file (type png)
 <use figs/PointGrid.png>
-Package pdftex.def Info: figs/PointGrid.png  used on input line 286.
+Package pdftex.def Info: figs/PointGrid.png  used on input line 285.
 (pdftex.def)             Requested size: 173.44534pt x 102.49612pt.
  [2{F:/MikTex/fonts/enc/dvips/lm/lm-rm.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mat
 hit.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mathsy.enc} <./figs/PointGrid.png>]
-<figs/Indices.png, id=136, 845.40843pt x 614.295pt>
+<figs/Indices.png, id=156, 845.40843pt x 614.295pt>
 File: figs/Indices.png Graphic file (type png)
 <use figs/Indices.png>
-Package pdftex.def Info: figs/Indices.png  used on input line 315.
+Package pdftex.def Info: figs/Indices.png  used on input line 314.
 (pdftex.def)             Requested size: 130.08731pt x 94.5211pt.
-<figs/Neighbours.png, id=137, 1231.60126pt x 630.85687pt>
+<figs/Neighbours.png, id=157, 1231.60126pt x 630.85687pt>
 File: figs/Neighbours.png Graphic file (type png)
 <use figs/Neighbours.png>
-Package pdftex.def Info: figs/Neighbours.png  used on input line 320.
+Package pdftex.def Info: figs/Neighbours.png  used on input line 319.
 (pdftex.def)             Requested size: 216.81pt x 111.04655pt.
- [3{F:/MikTex/fonts/enc/dvips/lm/lm-mathex.enc} <./figs/Indices.png> <./figs/Ne
-ighbours.png>]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-40.
-
-(F:\MikTex\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<figs/kollisjon.pdf, id=149, 928.04309pt x 597.67296pt>
-File: figs/kollisjon.pdf Graphic file (type pdf)
-<use figs/kollisjon.pdf>
-Package pdftex.def Info: figs/kollisjon.pdf  used on input line 348.
-(pdftex.def)             Requested size: 232.01021pt x 149.41786pt.
- [4 <./figs/kollisjon.pdf>]
-<figs/frilegmediagram.pdf, id=159, 733.47635pt x 597.67296pt>
-File: figs/frilegmediagram.pdf Graphic file (type pdf)
-<use figs/frilegmediagram.pdf>
-Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 371.
-(pdftex.def)             Requested size: 183.36864pt x 149.41786pt.
- [5 <./figs/frilegmediagram.pdf>]
-<figs/refleksjon.pdf, id=170, 607.68633pt x 597.67296pt>
-File: figs/refleksjon.pdf Graphic file (type pdf)
-<use figs/refleksjon.pdf>
-Package pdftex.def Info: figs/refleksjon.pdf  used on input line 423.
-(pdftex.def)             Requested size: 108.405pt x 106.61891pt.
- [6]
-<figs/newtonPos.png, id=179, 1383.66937pt x 538.26094pt>
-File: figs/newtonPos.png Graphic file (type png)
-<use figs/newtonPos.png>
-Package pdftex.def Info: figs/newtonPos.png  used on input line 448.
-(pdftex.def)             Requested size: 195.12767pt x 75.9063pt.
-<figs/newtonNeg.png, id=180, 1290.32062pt x 481.8pt>
-File: figs/newtonNeg.png Graphic file (type png)
-<use figs/newtonNeg.png>
-Package pdftex.def Info: figs/newtonNeg.png  used on input line 453.
-(pdftex.def)             Requested size: 195.12767pt x 72.85501pt.
- [7 <./figs/refleksjon.pdf>]
-<figs/punktSample.png, id=193, 1150.2975pt x 849.92531pt>
-File: figs/punktSample.png Graphic file (type png)
-<use figs/punktSample.png>
-Package pdftex.def Info: figs/punktSample.png  used on input line 465.
-(pdftex.def)             Requested size: 195.12767pt x 144.17413pt.
-<figs/punktMean.png, id=194, 1131.47719pt x 857.45343pt>
-File: figs/punktMean.png Graphic file (type png)
-<use figs/punktMean.png>
-Package pdftex.def Info: figs/punktMean.png  used on input line 470.
-(pdftex.def)             Requested size: 195.12767pt x 147.87161pt.
-<figs/surfaceGrid.png, id=195, 1196.21906pt x 813.0375pt>
-File: figs/surfaceGrid.png Graphic file (type png)
-<use figs/surfaceGrid.png>
-Package pdftex.def Info: figs/surfaceGrid.png  used on input line 481.
-(pdftex.def)             Requested size: 195.12767pt x 132.61946pt.
-<figs/BallPåFlate.png, id=196, 746.79pt x 377.15906pt>
-File: figs/BallPåFlate.png Graphic file (type png)
-<use figs/BallPåFlate.png>
-Package pdftex.def Info: figs/BallPåFlate.png  used on input line 486.
-(pdftex.def)             Requested size: 216.81pt x 109.49417pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [8 <./figs/newtonPos.png> <./figs/newtonNeg.png> <./figs/punktSample.png> <./f
-igs/punktMean.png>]
-<figs/rain.png, id=207, 721.19438pt x 585.68813pt>
+ [3{F:/MikTex/fonts/enc/dvips/lm/lm-mathex.enc}]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
+39.
+ (F:\MikTex\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+<figs/kollisjon.pdf, id=169, 928.04309pt x 597.67296pt>
+File: figs/kollisjon.pdf Graphic file (type pdf)
+<use figs/kollisjon.pdf>
+Package pdftex.def Info: figs/kollisjon.pdf  used on input line 347.
+(pdftex.def)             Requested size: 232.01021pt x 149.41786pt.
+
+[4 <./figs/Indices.png> <./figs/Neighbours.png>]
+<figs/frilegmediagram.pdf, id=179, 733.47635pt x 597.67296pt>
+File: figs/frilegmediagram.pdf Graphic file (type pdf)
+<use figs/frilegmediagram.pdf>
+Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 370.
+(pdftex.def)             Requested size: 183.36864pt x 149.41786pt.
+
+Underfull \vbox (badness 2158) has occurred while \output is active []
+
+ [5 <./figs/kollisjon.pdf>] [6 <./figs/frilegmediagram.pdf>]
+<figs/refleksjon.pdf, id=199, 607.68633pt x 597.67296pt>
+File: figs/refleksjon.pdf Graphic file (type pdf)
+<use figs/refleksjon.pdf>
+Package pdftex.def Info: figs/refleksjon.pdf  used on input line 422.
+(pdftex.def)             Requested size: 108.405pt x 106.61891pt.
+ [7 <./figs/refleksjon.pdf>]
+<figs/newtonPos.png, id=213, 1383.66937pt x 538.26094pt>
+File: figs/newtonPos.png Graphic file (type png)
+<use figs/newtonPos.png>
+Package pdftex.def Info: figs/newtonPos.png  used on input line 447.
+(pdftex.def)             Requested size: 195.12767pt x 75.9063pt.
+<figs/newtonNeg.png, id=214, 1290.32062pt x 481.8pt>
+File: figs/newtonNeg.png Graphic file (type png)
+<use figs/newtonNeg.png>
+Package pdftex.def Info: figs/newtonNeg.png  used on input line 452.
+(pdftex.def)             Requested size: 195.12767pt x 72.85501pt.
+<figs/punktSample.png, id=215, 1150.2975pt x 849.92531pt>
+File: figs/punktSample.png Graphic file (type png)
+<use figs/punktSample.png>
+Package pdftex.def Info: figs/punktSample.png  used on input line 464.
+(pdftex.def)             Requested size: 195.12767pt x 144.17413pt.
+<figs/punktMean.png, id=216, 1131.47719pt x 857.45343pt>
+File: figs/punktMean.png Graphic file (type png)
+<use figs/punktMean.png>
+Package pdftex.def Info: figs/punktMean.png  used on input line 469.
+(pdftex.def)             Requested size: 195.12767pt x 147.87161pt.
+
+Underfull \vbox (badness 5533) has occurred while \output is active []
+
+ [8 <./figs/newtonPos.png> <./figs/newtonNeg.png>]
+<figs/surfaceGrid.png, id=226, 1196.21906pt x 813.0375pt>
+File: figs/surfaceGrid.png Graphic file (type png)
+<use figs/surfaceGrid.png>
+Package pdftex.def Info: figs/surfaceGrid.png  used on input line 480.
+(pdftex.def)             Requested size: 195.12767pt x 132.61946pt.
+<figs/BallPåFlate.png, id=227, 746.79pt x 377.15906pt>
+File: figs/BallPåFlate.png Graphic file (type png)
+<use figs/BallPåFlate.png>
+Package pdftex.def Info: figs/BallPåFlate.png  used on input line 485.
+(pdftex.def)             Requested size: 216.81pt x 109.49417pt.
+<figs/rain.png, id=228, 721.19438pt x 585.68813pt>
 File: figs/rain.png Graphic file (type png)
 <use figs/rain.png>
-Package pdftex.def Info: figs/rain.png  used on input line 497.
+Package pdftex.def Info: figs/rain.png  used on input line 496.
 (pdftex.def)             Requested size: 195.12767pt x 158.45963pt.
-<figs/water.png, id=208, 960.58875pt x 555.57562pt>
+<figs/water.png, id=229, 960.58875pt x 555.57562pt>
 File: figs/water.png Graphic file (type png)
 <use figs/water.png>
-Package pdftex.def Info: figs/water.png  used on input line 502.
+Package pdftex.def Info: figs/water.png  used on input line 501.
 (pdftex.def)             Requested size: 216.81pt x 125.38907pt.
- [9 <./figs/surfaceGrid.png> <./figs/BallPåFlate.png> <./figs/rain.png> <./fig
-s/water.png>] [10] [11] (folderRapport.aux)
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [9 <./figs/punktSample.png> <./figs/punktMean.png> <./figs/surfaceGrid.png> <.
+/figs/BallPåFlate.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 524--525
+[][][]\T1/lmr/m/n/10.95 Figur 8[][] vi-ser den re-gu-l�rt in-dek-ser-te tre-kan
+t-fla-ten ge-ne-rert av
+ []
+
+[10 <./figs/rain.png> <./figs/water.png>] [11]
+Underfull \hbox (badness 10000) in paragraph at lines 545--546
+[][][]$\T1/lmr/m/n/10.95 https : / / github . com / FunkMarvel / VisSimMappe / 
+tree /
+ []
+
+
+Underfull \hbox (badness 1281) in paragraph at lines 547--548
+[]\T1/lmr/m/n/10.95 All kode for Unity-simuleringen er til-gjen-ge-lig i VisSim
+MappeUnityProsjekt-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 549--550
+[][][]$\T1/lmr/m/n/10.95 https : / / github . com / FunkMarvel / VisSimMappe / 
+tree /
+ []
+
+[12] [13] (folderRapport.aux)
  ***********
 LaTeX2e <2023-11-01>
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `folderRapport.out' has not changed.
-(rerunfilecheck)             Checksum: 71949ED6FD2241BA1FC436F8209FB4B7;2630.
+(rerunfilecheck)             Checksum: D9EED074D54CA295E7BAA806081A4B9B;3008.
 Package logreq Info: Writing requests to 'folderRapport.run.xml'.
 \openout1 = `folderRapport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39692 strings out of 474586
- 770556 string characters out of 5762087
+ 39719 strings out of 474586
+ 770928 string characters out of 5762087
  1940558 words of memory out of 5000000
- 61246 multiletter control sequences out of 15000+600000
+ 61267 multiletter control sequences out of 15000+600000
  630030 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,16n,107p,1301b,2800s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1491,9 +1521,9 @@ r6.pfb><F:/MikTex/fonts/type1/public/lm/lmr8.pfb><F:/MikTex/fonts/type1/public/
 lm/lmri10.pfb><F:/MikTex/fonts/type1/public/lm/lmsy10.pfb><F:/MikTex/fonts/type
 1/public/lm/lmsy8.pfb><F:/MikTex/fonts/type1/public/lm/lmtt10.pfb><F:/MikTex/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on folderRapport.pdf (11 pages, 4630576 bytes).
+Output written on folderRapport.pdf (13 pages, 4642365 bytes).
 PDF statistics:
- 331 PDF objects out of 1000 (max. 8388607)
- 48 named destinations out of 1000 (max. 500000)
- 235 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 377 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
+ 259 words of extra memory for PDF output out of 10000 (max. 10000000)
 

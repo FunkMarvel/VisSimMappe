@@ -1,5 +1,4 @@
 \documentclass[norsk, doc, 11pt, a4paper]{apa7}  % defines the basic parameters of the document
-
 % if you want a single-column, remove reprint
 
 % allows special characters (including æøå)
@@ -259,14 +258,14 @@
 %\noaffiliation                            % ignore this
 
 
-\abstract{ }
+\abstract{Jeg har implementert prosessering av punktskydata i C++, og simulering av regn og ball på trekantflate basert på punktskydata i Unity 2022.3.7f1. Prosjektet er tilgjengelig her: \url{https://github.com/FunkMarvel/VisSimMappe.git} .}
 
 \begin{document}
 \maketitle                                % creates the title, author, date
 \tableofcontents
 
 \section{Introduksjon}
-Et viktig aspekt av moderne beredskap er forståelsen av ekstremvær og dets effekt på lokal natur. Derfor er det nødvendig å kunne lage digitale representasjoner av virkelige terreng, samt simulere fysikk ved bruk av datamaskin på slike representasjoner. I denne rapporten presenterer jeg en metode for å modellere, samt simulere effekten av nedbør på terreng konstruert fra punktskydata.
+Et viktig aspekt av moderne beredskap er forståelsen av ekstremvær og dets effekt på lokal natur. Derfor er det nødvendig å kunne lage digitale representasjoner av virkelige terreng, samt simulere fysikk ved bruk av datamaskin på slike representasjoner. I denne rapporten utforsker jeg en metode for å modellere, samt simulere effekten av nedbør på terreng konstruert fra punktskydata.
 
 Rapporten fokuserer på hvordan lage en regulært indeksert trekantflate som representerer terrenget, samt hvordan bruke B-Splines til å kartlegge vassdrag som dannes ved ekstrem nedbør, og hvordan simulere effekten et slik vassdrag har på løsmateriale.
 
@@ -296,7 +295,7 @@ For hver rute kan det regnes ut en gjennomsnittlig \(z\)-koordinat ved å ta gje
 	\bar{z}_{i,j} &= \frac{1}{n_{i,j}}\sum_{k = 0}^{n_{i,j}}z_{i,j,k},\text{ eller for tomme ruter }
 	\bar{z}_{i,j} = \frac{1}{8}\sum_{k=i-1}^{i+1}\sum_{\substack{l=j-1 \\ k\neq i \lor l\neq j}}^{j+1} \bar{z}_{k,l}.
 \end{align*}
-hvor \(n_{i,j}\) er antall punkter innenfor ruten som tilsvarer rad \(i\) kolonne \(j\). Gjennomsnittshøyden i en tom rute regnes som gjennomsnittet av gjennomsnittshøydene til naborutene.
+hvor \(n_{i,j}\) er antall punkter innenfor ruten som tilsvarer rad \(i\) kolonne \(j\). Gjennomsnittshøyden i en tom rute regnes som gjennomsnittet av gjennomsnittshøydene til naborutene \parencite[ss.140-141]{nylundMAT301MatematikkIII2023}.
 Hvis dette må regnes for en rute på kanten av rutenettet, så må man ekskludere de ikke-eksisterende naboene.
 Settet med regulært fordelte punkter kan så sentreres rundt origo, og skrives til fil på formatet
 \begin{align*}
@@ -304,10 +303,10 @@ Settet med regulært fordelte punkter kan så sentreres rundt origo, og skrives 
 	&(i\cdot h - n_{x}\cdot h/2,\quad \bar{z}_{i,j} - (z_{\text{max} - z_{\text{min}}})/2,\quad j\cdot h - n_{y}\cdot h/2) \\
 	&...
 \end{align*}
-for alle \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Første linjen i filen inneholder antall punkter. Videre er hver koordinat translatert slik at origo er sentrert, og \(y\)- og \(z\)- koordinaten er byttet om for innlesning i Unity \parencite{UnityEngine2023} som bruker et venstrehendt koordinatsystem med positiv \(y\)-akse som oppoverretning.
+for alle \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Første linjen i filen inneholder antall punkter. Videre er hver koordinat translatert slik at origo er sentrert, og \(y\)- og \(z\)- koordinaten er byttet om for innlesning i Unity \parencite{UnityEngine2023} som bruker et venstrehendt koordinatsystem med positiv \(y\)-akse som oppoverretning. Se \hyperref[ap:vert]{'Utdrag av vertices.txt'} for eksempel på resulterende punktdata.
 
 \subsubsection{Indeksering}
-For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg kvadratet med hjørner \(v_{0} = j + i\cdot n_{y}\), \(v_{1} = (j+1) + i\cdot n_{y}\), \(v_{2} = j + (i+1)\cdot n_{y}\) og \(v_{3} = (j+1) + (i+1)\cdot n_{y}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\).
+For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter \parencite[ss.140-141]{nylundMAT301MatematikkIII2023}. Dette gjøres ved å ta for seg kvadratet med hjørner \(v_{0} = j + i\cdot n_{y}\), \(v_{1} = (j+1) + i\cdot n_{y}\), \(v_{2} = j + (i+1)\cdot n_{y}\) og \(v_{3} = (j+1) + (i+1)\cdot n_{y}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\).
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.5\textwidth}
@@ -334,13 +333,13 @@ Indeksering med naboinformasjon kan skrives til fil på formen
 	& v_{1}\text{ } v_{2}\text{ } v_{3}\text{ } T_{2}\text{ } T_{\text{even}}\text{ } T_{3} \\
 	&...
 \end{align*}
-Hvor første linje er totalt antall trekanter, og hvert par med linjer etter holder indekser og naboinformasjon for partall- og oddetallstrekanter i for et vilkårlig kvadrat.
+Hvor første linje er totalt antall trekanter, og hvert par med linjer etter holder indekser og naboinformasjon for partall- og oddetallstrekanter i for et vilkårlig kvadrat. Se \hyperref[ap:vert]{'Utdrag av indices.txt'} for eksempel på resulterende indekseringsdata.
 
 \subsection{Ball på trekantflate}
 For å simulere baller lagde jeg klassen \verb+BallPhysics+ som legges til som komponent på en instance av Unitys innebygde sfære-primitiv. Klassen har en referanse til \verb+TriangleSurface+-objektet den skal rulle på. Videre definerer jeg parametere for ballens masse \([\si{\kilogram}]\), radius \([\si{\metre}]\), friksjon [dimensjonsløs] og bounciness [dimensjonsløs].
 
 \subsubsection{Kollisjonsdeteksjon} \label{sec:3:A}
-For å dettektere kollisjon med trekantflaten, så vil ballen kalle \verb+GetCollision+-metoden i \verb+TriangleSurface+ objektet i hver \verb+FixedUpdate+. Ballen gir da posisjonen til senteret sitt \(p\) til \verb+TriangleSurface+, som bruker barysentriske koordinater til å finne trekanten ballen er på. Videre finner \verb+TriangleSurface+ punktet \(s\) på trekanten som er på linje med senteret i ballen langs \(y\)-aksen.
+For å dettektere kollisjon med trekantflaten, så vil ballen kalle \verb+GetCollision+-metoden i \verb+TriangleSurface+ objektet i hver \verb+FixedUpdate+. Ballen gir da posisjonen til senteret sitt \(p\) til \verb+TriangleSurface+, som bruker barysentriske koordinater til å finne trekanten ballen er på \parencite[ss.78-79]{nylundMAT301MatematikkIII2023}. Videre finner \verb+TriangleSurface+ punktet \(s\) på trekanten som er på linje med senteret i ballen langs \(y\)-aksen.
 
 \begin{figure}[H]
 	\centering
@@ -406,7 +405,7 @@ I tilfellet hvor ballen krysser fra en trekant til neste, så har jeg implemente
 	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - \left(1+b\right)\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n}.
 \end{align*}
 
-I tilfellet hvor ballens bounciness er satt til å være \(0\), så bruker jeg i stedet en refleksjon av planet med normal lik gjennomsnittsnormalen til de to involverte trekantene.
+I tilfellet hvor ballens bounciness er satt til å være \(0\), så bruker jeg i stedet en refleksjon av planet med normal lik gjennomsnittsnormalen til de to involverte trekantene \parencite[ss.120-124]{nylundMAT301MatematikkIII2023}.
 \begin{align*}
 	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - 2\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n},
 	\qquad
@@ -457,7 +456,7 @@ som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
 \end{figure}
 
 \section{Resultater}
-\subsection{Punktsky og glatting}
+\subsection{Punktsky og glatting} \label{fig:punkt}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.5\textwidth}
@@ -473,7 +472,7 @@ som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
 	\caption{Plott av punktskydataene.}
 \end{figure}
 
-\subsection{Overflate og ball}
+\subsection{Overflate og ball} \label{fig:ball}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.5\textwidth}
@@ -489,7 +488,7 @@ som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
 	\caption{Plott av trekantflaten og to perspektiver av samme ball.}
 \end{figure}
 
-\subsection{Spline og vassdrag}
+\subsection{Spline og vassdrag} \label{fig:regn}
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}{.5\textwidth}
@@ -505,16 +504,51 @@ som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
 	\caption{Plott av regn og vassdrag. Den oransje ballen flyter med vassdraget.}
 \end{figure}
 
+\begin{table}[H] \label{tab:fps}
+	\centering
+	\begin{tabular}{|l|r|}
+		\hline
+		Antall splines & Bildefrekvens \\\hline
+		\(100\) & \(167\) fps \\\hline
+		\(250\) & \(53\) fps \\\hline
+		\(500\) & \(4\) fps \\\hline
+	\end{tabular}
+	\caption{Antall B-Splines (1 per regndråpe simulert), og tilsvarende gjennomsnitlig bildefrekvens.}
+\end{table}
+
 \section{Diskusjon}
+\subsection{Punktsky}
+Fra  \hyperref[fig:punkt]{figur 7} ser jeg at punktskydataene er blitt prossesert riktig. Delfigur \hyperref[fig:punkt]{(a)} viser vært hundrede av punktene innlest fra textfilen som LASzip genererte fra .laz-filen med rådata. Det er totalt \(318905\) punkter som rendres. Fargen er satt basert på høyden i vertex-shaderen 'GPUInstancing.shader'. Dataene er som forventet ugjevnt fordelt i det horisontale planet, og har varierende tetthet.  Delfigur \hyperref[fig:punkt]{(b)} viser de regulært glattede verteksene generert av \verb+PointCloudSurfaceParser.cpp+, og er som forventet gjevnt fordelt i det horisontale planet med konstant tetthet innenfor området.
 
+\subsection{Flate og ball}
+\hyperref[fig:ball]{Figur 8} viser den regulært indekserte trekantflaten generert av \verb+PointCloudSurfaceParser.cpp+, og at en ball kan plaseres og bevege seg på trekantflaten.
 
+\subsection{Spline og vassdrag}
+Som illustrert i \hyperref[fig:regn]{Figur 9}, så er \(100\) individuelle regndroper i stand til å trille på trekantflaten samtidig. Dette kan brukes for å simpelt og raskt estimere hvor regn kommer til å flyte langs terrenget. Videre vises B-Splinene som visualiserer det estimerte vassdraget som antas følges av videre nedbør. Ballen som representerer løsmateriale blir fraktet med vassdraget og, basert på start posisjon, kan ende opp i bunnen av dalen som terrenget viser, eller bli sittende fast på veien på grunn av friksjonen på \(\mu = 0.04\) for ballen.
+
+Valget om å simulere retningen til vassdraget med tangentvektoren til B-Splinene er mindre enn optimalt ettersom algoritmen for å finne parameterverdiene for nærmeste punkt per spline skalerer dårlig for økt antall spliner, som vist i \hyperref[tab:fps]{Tabell 1}. Aktuelle alternativer er å bruke en felt- eller diffusjonsbasert fluidsimmulering til å bestemme hastighetsvektorer per kvadrat i det regulære rutenettet som ligger til grunne for trekantflaten. En slik simulasjon hadde også antagelig kunne modellere et vassdrag med hastighet som varierer i rommet.
+ 
 \section{Konklusjon}
+Hensikten med dette prosjektet var å utforske konstruksjonen av trekantflater fra punktsky-måling av terreng, til en mulig modell for simulering av vassdrag og effekt av nedbør på løsmateriale. Konstruksjonen av trekantflate er fult mulig, og gir et modellert tereng som kan brukes til simulering av vær.
 
+Valgt metode for visualisering av vassdrag og simmulering av flom er ikke egnet for fysisk komplekse situasjoner grunnet at ytelsen raskt går ned når man øker antall regndråper. Derimot er modellen aktuelt som verktøy for enkle visualiseringer av effekten av regn på enkeltlegmer.
+
+\newpage
 \printbibliography
 
 \appendix
-\section{Prosjektfiler}
-\subsection{Utdrag av vertices.txt}
+\section{Prosjektfiler} \label{ap:1}
+Prosjektet er tilgjengelig her: \url{https://github.com/FunkMarvel/VisSimMappe.git} .
+
+All kode for prossesering av punktskydata er tilgjengelig i PointCloudSurfaceParser-undermappen i Git repoet,
+
+\url{https://github.com/FunkMarvel/VisSimMappe/tree/e58f43b7870e46e7956c186ae735f39589018496/PointCloudSurfaceParser}
+
+All kode for Unity-simuleringen er tilgjengelig i VisSimMappeUnityProsjekt-undermappen av Git repoet,
+
+\url{https://github.com/FunkMarvel/VisSimMappe/tree/e58f43b7870e46e7956c186ae735f39589018496/VisSimMappeUnityProsjekt}
+
+\subsection{Utdrag av vertices.txt} \label{ap:vert}
 \begin{verbatim}
 28800
 (-600, 87.3003, -300)
@@ -534,7 +568,7 @@ som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
 ...
 \end{verbatim}
 
-\subsection{Utdrag av indices.txt}
+\subsection{Utdrag av indices.txt} \label{ap:idx}
 \begin{verbatim}
 56882
 0 1 120 1 -1 -1

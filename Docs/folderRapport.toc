@@ -1,5 +1,5 @@
 \babel@toc {norsk}{}\relax 
-\contentsline {section}{Introduksjon}{1}{section*.2}%
+\contentsline {section}{Introduksjon}{2}{section*.2}%
 \contentsline {section}{Metode}{2}{section*.3}%
 \contentsline {subsection}{Punktsky og triangulering}{2}{section*.4}%
 \contentsline {subsubsection}{Vertekser}{2}{section*.5}%
@@ -7,14 +7,17 @@
 \contentsline {subsection}{Ball på trekantflate}{4}{section*.9}%
 \contentsline {subsubsection}{Kollisjonsdeteksjon}{4}{section*.10}%
 \contentsline {subsubsection}{Glidefysikk}{5}{section*.12}%
-\contentsline {subsubsection}{Rulling på flere trekanter}{6}{section*.14}%
+\contentsline {subsubsection}{Rulling på flere trekanter}{7}{section*.14}%
 \contentsline {subsection}{B-Splines og simulering av vassdrag}{7}{section*.16}%
-\contentsline {section}{Resultater}{8}{section*.18}%
-\contentsline {subsection}{Punktsky og glatting}{8}{section*.19}%
+\contentsline {section}{Resultater}{9}{section*.18}%
+\contentsline {subsection}{Punktsky og glatting}{9}{section*.19}%
 \contentsline {subsection}{Overflate og ball}{9}{section*.21}%
-\contentsline {subsection}{Spline og vassdrag}{9}{section*.23}%
-\contentsline {section}{Diskusjon}{9}{section*.25}%
-\contentsline {section}{Konklusjon}{9}{section*.26}%
-\contentsline {section}{Prosjektfiler}{10}{appendix.1}%
-\contentsline {subsection}{Utdrag av vertices.txt}{10}{section*.28}%
-\contentsline {subsection}{Utdrag av indices.txt}{10}{section*.29}%
+\contentsline {subsection}{Spline og vassdrag}{10}{section*.23}%
+\contentsline {section}{Diskusjon}{10}{section*.26}%
+\contentsline {subsection}{Punktsky}{10}{section*.27}%
+\contentsline {subsection}{Flate og ball}{10}{section*.28}%
+\contentsline {subsection}{Spline og vassdrag}{11}{section*.29}%
+\contentsline {section}{Konklusjon}{11}{section*.30}%
+\contentsline {section}{Prosjektfiler}{12}{appendix.1}%
+\contentsline {subsection}{Utdrag av vertices.txt}{12}{section*.32}%
+\contentsline {subsection}{Utdrag av indices.txt}{13}{section*.33}%
