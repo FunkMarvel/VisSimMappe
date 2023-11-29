@@ -4,9 +4,9 @@
 // //FileType: Visual C# Source file
 // //Author : Anders P. Åsbø
 // //Created On : 28/11/2023
-// //Last Modified On : 28/11/2023
+// //Last Modified On : 29/11/2023
 // //Copy Rights : Anders P. Åsbø
-// //Description :
+// //Description : Handles UI and interactivity
 // //////////////////////////////////////////////////////////////////////////
 // //////////////////////////////
 
@@ -46,7 +46,7 @@ public class UIManager : MonoBehaviour
         {
             closeViewCamera.enabled = true;
             wideViewCamera.enabled = false;
-            followCamera.rect = new Rect(1f-0.3f, 0.125f, 0.25f, 0.25f);
+            followCamera.rect = new Rect(1f - 0.3f, 0.125f, 0.25f, 0.25f);
             followCamera.depth = closeViewCamera.depth > wideViewCamera.depth
                 ? closeViewCamera.depth + 1
                 : wideViewCamera.depth + 1;
@@ -112,7 +112,7 @@ public class UIManager : MonoBehaviour
         var position = _rainManager.Ball.transform.position;
         followCamera.transform.position = position + (0.5f * Vector3.up + 0.5f * Vector3.back).normalized * 30f;
         followCamera.transform.LookAt(position, (0.5f * Vector3.up + 0.5f * Vector3.back).normalized);
-        
+
         closeViewCamera.transform.LookAt(position);
     }
 
@@ -145,11 +145,13 @@ public class UIManager : MonoBehaviour
         {
             closeViewCamera.enabled = false;
             wideViewCamera.enabled = true;
+            _camera = wideViewCamera;
         }
         else
         {
             closeViewCamera.enabled = true;
             wideViewCamera.enabled = false;
+            _camera = closeViewCamera;
         }
     }
 

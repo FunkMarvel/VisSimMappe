@@ -252,6 +252,48 @@
       \verb https://laszip.org/
       \endverb
     \endentry
+    \entry{nylundMAT301MatematikkIII2023}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7a00fd6e37c810471710f36f9d1a0418}{%
+           family={Nylund},
+           familyi={N\bibinitperiod},
+           given={Dag},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Hamar}%
+      }
+      \list{publisher}{1}{%
+        {H{ø}gskolen i Innlandet}%
+      }
+      \strng{namehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{fullhash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{bibnamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authorbibnamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authornamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authorfullhash}{7a00fd6e37c810471710f36f9d1a0418}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{{{MAT301 Matematikk III VSIM101 Visualisering}} Og Simulering Forelesningsnotater Og Oppgaver}
+      \field{urlday}{29}
+      \field{urlmonth}{11}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1cKrJ_vrKrcS1igT96_c09cjgJrRo442p/view?usp=sharing&usp=embed_facebook
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1cKrJ_vrKrcS1igT96_c09cjgJrRo442p/view?usp=sharing&usp=embed_facebook
+      \endverb
+    \endentry
     \entry{UnityEngine2023}{misc}{}
       \list{location}{1}{%
         {San Francisco}%
@@ -513,6 +555,48 @@
       \endverb
       \verb{url}
       \verb https://laszip.org/
+      \endverb
+    \endentry
+    \entry{nylundMAT301MatematikkIII2023}{book}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7a00fd6e37c810471710f36f9d1a0418}{%
+           family={Nylund},
+           familyi={N\bibinitperiod},
+           given={Dag},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Hamar}%
+      }
+      \list{publisher}{1}{%
+        {H{ø}gskolen i Innlandet}%
+      }
+      \strng{namehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{fullhash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{bibnamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authorbibnamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authornamehash}{7a00fd6e37c810471710f36f9d1a0418}
+      \strng{authorfullhash}{7a00fd6e37c810471710f36f9d1a0418}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{10}
+      \field{title}{{{MAT301 Matematikk III VSIM101 Visualisering}} Og Simulering Forelesningsnotater Og Oppgaver}
+      \field{urlday}{29}
+      \field{urlmonth}{11}
+      \field{urlyear}{2023}
+      \field{year}{2023}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://drive.google.com/file/d/1cKrJ_vrKrcS1igT96_c09cjgJrRo442p/view?usp=sharing&usp=embed_facebook
+      \endverb
+      \verb{url}
+      \verb https://drive.google.com/file/d/1cKrJ_vrKrcS1igT96_c09cjgJrRo442p/view?usp=sharing&usp=embed_facebook
       \endverb
     \endentry
     \entry{UnityEngine2023}{misc}{}

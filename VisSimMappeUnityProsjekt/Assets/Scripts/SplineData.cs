@@ -63,7 +63,7 @@ public class SplineData
         var diff = point - onSpline;  // vector from guess to given point
         var dot = Vector2.Dot(diff, tangent);
         var i = 0;
-        const int limit = 100;  // iteration limit
+        const int limit = 50;  // iteration limit
         
         // iterate until tangent and difference vector are perpendicular, or until max iterations are reached
         while (dot*dot > 1e-4f && i++ < limit)

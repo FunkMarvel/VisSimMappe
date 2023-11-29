@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  27 NOV 2023 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  29 NOV 2023 20:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -10,8 +10,8 @@ L3 programming layer <2023-11-09>
 Document Class: apa7 2022/07/25 v2.16 APA formatting (7th edition)
 (F:\MikTex\tex/latex/base\article.cls
 Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
-(F:\MikTex\tex/latex/base\size12.clo
-File: size12.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+(F:\MikTex\tex/latex/base\size11.clo
+File: size11.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count186
 \c@section=\count187
@@ -1074,26 +1074,6 @@ File: listings.cfg 2023/02/27 1.9 listings configuration
 ))
 Package: listings 2023/02/27 1.9 (Carsten Heinz)
 
-(F:\MikTex\tex/latex/subfigure\subfigure.sty
-Package: subfigure 2002/07/30 v2.1.4 subfigure package
-\subfigtopskip=\skip108
-\subfigcapskip=\skip109
-\subfigcaptopadj=\dimen306
-\subfigbottomskip=\skip110
-\subfigcapmargin=\dimen307
-\subfiglabelskip=\skip111
-\c@subfigure=\count475
-\c@lofdepth=\count476
-\c@subtable=\count477
-\c@lotdepth=\count478
-
-****************************************
-* Local config file subfigure.cfg used *
-****************************************
-(F:\MikTex\tex/latex/subfigure\subfigure.cfg)
-\subfig@top=\skip112
-\subfig@bottom=\skip113
-)
 (F:\MikTex\tex/latex/cprotect\cprotect.sty
 Package: cprotect 2011/01/27 v1.0e (Bruno Le Floch)
 
@@ -1101,22 +1081,32 @@ Package: cprotect 2011/01/27 v1.0e (Bruno Le Floch)
 Package: suffix 2006/07/15 1.5a Variant command support
 )
 \CPT@WriteOut=\write5
-\c@CPT@WriteCount=\count479
-\c@CPT@numB=\count480
+\c@CPT@WriteCount=\count475
+\c@CPT@numB=\count476
 \CPT@commandatend@toks=\toks40
 ) (F:\MikTex\tex/latex/float\float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count481
+\c@float@type=\count477
 \float@exts=\toks41
 \float@box=\box69
 \@float@everytoks=\toks42
 \@floatcapt=\box70
+) (F:\MikTex\tex/latex/caption\subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count478
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count479
 )
-Package hyperref Info: Option `colorlinks' set `true' on input line 39.
+(F:\MikTex\tex/latex/xpatch\xpatch.sty
+Package: xpatch 2020/03/25 v0.3a Extending etoolbox patching commands
+)
+Package hyperref Info: Option `colorlinks' set `true' on input line 40.
+
 (F:\MikTex\tex/latex/thmtools\thmtools.sty
 Package: thmtools 2023/05/04 v0.76
 \thmt@toks=\toks43
-\c@thmt@dummyctr=\count482
+\c@thmt@dummyctr=\count480
 
 (F:\MikTex\tex/latex/thmtools\thm-patch.sty
 Package: thm-patch 2023/05/04 v0.76
@@ -1144,38 +1134,38 @@ Package: thm-restate 2023/05/04 v0.76
 ))
 (F:\MikTex\tex/latex/siunitx\siunitx.sty
 Package: siunitx 2023-11-14 v3.3.9 A comprehensive (SI) units package
-\l__siunitx_number_uncert_offset_int=\count483
-\l__siunitx_number_exponent_fixed_int=\count484
-\l__siunitx_number_min_decimal_int=\count485
-\l__siunitx_number_min_integer_int=\count486
-\l__siunitx_number_round_precision_int=\count487
-\l__siunitx_number_lower_threshold_int=\count488
-\l__siunitx_number_upper_threshold_int=\count489
-\l__siunitx_number_group_first_int=\count490
-\l__siunitx_number_group_size_int=\count491
-\l__siunitx_number_group_minimum_int=\count492
-\l__siunitx_angle_tmp_dim=\dimen308
+\l__siunitx_number_uncert_offset_int=\count481
+\l__siunitx_number_exponent_fixed_int=\count482
+\l__siunitx_number_min_decimal_int=\count483
+\l__siunitx_number_min_integer_int=\count484
+\l__siunitx_number_round_precision_int=\count485
+\l__siunitx_number_lower_threshold_int=\count486
+\l__siunitx_number_upper_threshold_int=\count487
+\l__siunitx_number_group_first_int=\count488
+\l__siunitx_number_group_size_int=\count489
+\l__siunitx_number_group_minimum_int=\count490
+\l__siunitx_angle_tmp_dim=\dimen306
 \l__siunitx_angle_marker_box=\box71
 \l__siunitx_angle_unit_box=\box72
-\l__siunitx_compound_count_int=\count493
+\l__siunitx_compound_count_int=\count491
 
 (F:\MikTex\tex/latex/translations\translations.sty
 Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
  (CN)
 )
 \l__siunitx_table_tmp_box=\box73
-\l__siunitx_table_tmp_dim=\dimen309
-\l__siunitx_table_column_width_dim=\dimen310
+\l__siunitx_table_tmp_dim=\dimen307
+\l__siunitx_table_column_width_dim=\dimen308
 \l__siunitx_table_integer_box=\box74
 \l__siunitx_table_decimal_box=\box75
 \l__siunitx_table_uncert_box=\box76
 \l__siunitx_table_before_box=\box77
 \l__siunitx_table_after_box=\box78
-\l__siunitx_table_before_dim=\dimen311
-\l__siunitx_table_carry_dim=\dimen312
-\l__siunitx_unit_tmp_int=\count494
-\l__siunitx_unit_position_int=\count495
-\l__siunitx_unit_total_int=\count496
+\l__siunitx_table_before_dim=\dimen309
+\l__siunitx_table_carry_dim=\dimen310
+\l__siunitx_unit_tmp_int=\count492
+\l__siunitx_unit_position_int=\count493
+\l__siunitx_unit_total_int=\count494
 
 
 Package siunitx Warning: Option "binary-units" has been removed in this
@@ -1183,23 +1173,23 @@ Package siunitx Warning: Option "binary-units" has been removed in this
 
 (F:\MikTex\tex/latex/tools\array.sty
 Package: array 2023/10/16 v2.5g Tabular extension package (FMi)
-\col@sep=\dimen313
+\col@sep=\dimen311
 \ar@mcellbox=\box79
-\extrarowheight=\dimen314
+\extrarowheight=\dimen312
 \NC@list=\toks45
-\extratabsurround=\skip114
-\backup@length=\skip115
+\extratabsurround=\skip108
+\backup@length=\skip109
 \ar@cellbox=\box80
 ))
-\c@subproject=\count497
-\c@NumberOfAuthors=\count498
-\c@NumberOfSuperscripts=\count499
+\c@subproject=\count495
+\c@NumberOfAuthors=\count496
+\c@NumberOfSuperscripts=\count497
 
 
 Class apa7 Warning: Deprecated: see documentation for \authorsaffiliations on i
-nput line 247.
+nput line 256.
 
-\c@NumberOfAffiliations=\count500
+\c@NumberOfAffiliations=\count498
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 Package csquotes Info: Adjusting default style.
@@ -1207,24 +1197,24 @@ Package csquotes Info: Redefining alias 'default' -> 'norsk'.
 (folderRapport.aux)
 \openout1 = `folderRapport.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 255.
-LaTeX Font Info:    ... okay on input line 255.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 264.
+LaTeX Font Info:    ... okay on input line 264.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1245,12 +1235,12 @@ LaTeX Font Info:    ... okay on input line 255.
 * \topmargin=-18.06749pt
 * \headheight=15.2pt
 * \headsep=25.0pt
-* \topskip=12.0pt
+* \topskip=11.0pt
 * \footskip=30.0pt
-* \marginparwidth=44.0pt
+* \marginparwidth=59.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
+* \skip\footins=10.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
@@ -1262,16 +1252,16 @@ LaTeX Font Info:    ... okay on input line 255.
 
 (F:\MikTex\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count501
-\scratchdimen=\dimen315
+\scratchcounter=\count499
+\scratchdimen=\dimen313
 \scratchbox=\box81
-\nofMPsegments=\count502
-\nofMParguments=\count503
+\nofMPsegments=\count500
+\nofMParguments=\count501
 \everyMPshowfont=\toks46
-\MPscratchCnt=\count504
-\MPscratchDim=\dimen316
-\MPnumerator=\count505
-\makeMPintoPDFobject=\count506
+\MPscratchCnt=\count502
+\MPscratchDim=\dimen314
+\MPnumerator=\count503
+\makeMPintoPDFobject=\count504
 \everyMPtoPDFconversion=\toks47
 ) (F:\MikTex\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -1281,18 +1271,17 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 (F:\MikTex\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 255.
+Package hyperref Info: Link coloring ON on input line 264.
  (folderRapport.out)
 (folderRapport.out)
 \@outlinefile=\write6
 \openout6 = `folderRapport.out'.
 
 Class apa7 Info: Language definition file config/APA7norsk.txt not found on inp
-ut line 255.
+ut line 264.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: listings package is loaded.
-Package caption Info: subfigure package is loaded.
 Package caption Info: End \AtBeginDocument code.
 Package biblatex Info: Trying to load language 'norsk' -> 'norsk-apa'...
 Package biblatex Info: ... file 'norsk-apa.lbx' found.
@@ -1318,9 +1307,9 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'folderRapport.bbl' found.
  (folderRapport.bbl)
-Package biblatex Info: Reference section=0 on input line 255.
-Package biblatex Info: Reference segment=0 on input line 255.
-\c@lstlisting=\count507
+Package biblatex Info: Reference section=0 on input line 264.
+Package biblatex Info: Reference segment=0 on input line 264.
+\c@lstlisting=\count505
 
 
 Package siunitx Warning: Detected the "physics" package:
@@ -1334,43 +1323,43 @@ Package siunitx Warning: Detected the "physics" package:
 (siunitx)                to your preamble.
 
 Package translations Info: no dictionary file `translations-basic-dictionary-no
-rwegian.trsl' found. on input line 255.
-Class apa7 Info: Keywords not defined on input line 256.
+rwegian.trsl' found. on input line 264.
+Class apa7 Info: Keywords not defined on input line 265.
 Using title for running head
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-56.
+65.
 (F:\MikTex\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-56.
+65.
  (F:\MikTex\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-256.
+265.
 
 (F:\MikTex\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-256.
+265.
  (F:\MikTex\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 256.
+(Font)              <10.95> on input line 265.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 256.
+(Font)              <8> on input line 265.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 256.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 256
+(Font)              <6> on input line 265.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 265
 .
 
 (F:\MikTex\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 256
+LaTeX Font Info:    Trying to load font information for U+msb on input line 265
 .
  (F:\MikTex\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1382,59 +1371,129 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
  [1
 
 {C:/Users/aande/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{F:/MikTex/fon
-ts/enc/dvips/lm/lm-ec.enc}] [2{F:/MikTex/fonts/enc/dvips/lm/lm-rm.enc}{F:/MikTe
-x/fonts/enc/dvips/lm/lm-mathit.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mathsy.enc}
-{F:/MikTex/fonts/enc/dvips/lm/lm-mathex.enc}]
+ts/enc/dvips/lm/lm-ec.enc}]
+<figs/PointGrid.png, id=114, 1047.16219pt x 618.81187pt>
+File: figs/PointGrid.png Graphic file (type png)
+<use figs/PointGrid.png>
+Package pdftex.def Info: figs/PointGrid.png  used on input line 286.
+(pdftex.def)             Requested size: 173.44534pt x 102.49612pt.
+ [2{F:/MikTex/fonts/enc/dvips/lm/lm-rm.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mat
+hit.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mathsy.enc} <./figs/PointGrid.png>]
+<figs/Indices.png, id=136, 845.40843pt x 614.295pt>
+File: figs/Indices.png Graphic file (type png)
+<use figs/Indices.png>
+Package pdftex.def Info: figs/Indices.png  used on input line 315.
+(pdftex.def)             Requested size: 130.08731pt x 94.5211pt.
+<figs/Neighbours.png, id=137, 1231.60126pt x 630.85687pt>
+File: figs/Neighbours.png Graphic file (type png)
+<use figs/Neighbours.png>
+Package pdftex.def Info: figs/Neighbours.png  used on input line 320.
+(pdftex.def)             Requested size: 216.81pt x 111.04655pt.
+ [3{F:/MikTex/fonts/enc/dvips/lm/lm-mathex.enc} <./figs/Indices.png> <./figs/Ne
+ighbours.png>]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
-16.
+40.
 
 (F:\MikTex\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<figs/kollisjon.pdf, id=102, 928.04309pt x 597.67296pt>
+<figs/kollisjon.pdf, id=149, 928.04309pt x 597.67296pt>
 File: figs/kollisjon.pdf Graphic file (type pdf)
 <use figs/kollisjon.pdf>
-Package pdftex.def Info: figs/kollisjon.pdf  used on input line 324.
+Package pdftex.def Info: figs/kollisjon.pdf  used on input line 348.
 (pdftex.def)             Requested size: 232.01021pt x 149.41786pt.
- [3]
-<figs/frilegmediagram.pdf, id=110, 733.47635pt x 597.67296pt>
+ [4 <./figs/kollisjon.pdf>]
+<figs/frilegmediagram.pdf, id=159, 733.47635pt x 597.67296pt>
 File: figs/frilegmediagram.pdf Graphic file (type pdf)
 <use figs/frilegmediagram.pdf>
-Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 347.
+Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 371.
 (pdftex.def)             Requested size: 183.36864pt x 149.41786pt.
- [4 <./figs/kollisjon.pdf>] [5 <./figs/frilegmediagram.pdf>] [6] [7] (folderRap
-port.aux)
+ [5 <./figs/frilegmediagram.pdf>]
+<figs/refleksjon.pdf, id=170, 607.68633pt x 597.67296pt>
+File: figs/refleksjon.pdf Graphic file (type pdf)
+<use figs/refleksjon.pdf>
+Package pdftex.def Info: figs/refleksjon.pdf  used on input line 423.
+(pdftex.def)             Requested size: 108.405pt x 106.61891pt.
+ [6]
+<figs/newtonPos.png, id=179, 1383.66937pt x 538.26094pt>
+File: figs/newtonPos.png Graphic file (type png)
+<use figs/newtonPos.png>
+Package pdftex.def Info: figs/newtonPos.png  used on input line 448.
+(pdftex.def)             Requested size: 195.12767pt x 75.9063pt.
+<figs/newtonNeg.png, id=180, 1290.32062pt x 481.8pt>
+File: figs/newtonNeg.png Graphic file (type png)
+<use figs/newtonNeg.png>
+Package pdftex.def Info: figs/newtonNeg.png  used on input line 453.
+(pdftex.def)             Requested size: 195.12767pt x 72.85501pt.
+ [7 <./figs/refleksjon.pdf>]
+<figs/punktSample.png, id=193, 1150.2975pt x 849.92531pt>
+File: figs/punktSample.png Graphic file (type png)
+<use figs/punktSample.png>
+Package pdftex.def Info: figs/punktSample.png  used on input line 465.
+(pdftex.def)             Requested size: 195.12767pt x 144.17413pt.
+<figs/punktMean.png, id=194, 1131.47719pt x 857.45343pt>
+File: figs/punktMean.png Graphic file (type png)
+<use figs/punktMean.png>
+Package pdftex.def Info: figs/punktMean.png  used on input line 470.
+(pdftex.def)             Requested size: 195.12767pt x 147.87161pt.
+<figs/surfaceGrid.png, id=195, 1196.21906pt x 813.0375pt>
+File: figs/surfaceGrid.png Graphic file (type png)
+<use figs/surfaceGrid.png>
+Package pdftex.def Info: figs/surfaceGrid.png  used on input line 481.
+(pdftex.def)             Requested size: 195.12767pt x 132.61946pt.
+<figs/BallPåFlate.png, id=196, 746.79pt x 377.15906pt>
+File: figs/BallPåFlate.png Graphic file (type png)
+<use figs/BallPåFlate.png>
+Package pdftex.def Info: figs/BallPåFlate.png  used on input line 486.
+(pdftex.def)             Requested size: 216.81pt x 109.49417pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./figs/newtonPos.png> <./figs/newtonNeg.png> <./figs/punktSample.png> <./f
+igs/punktMean.png>]
+<figs/rain.png, id=207, 721.19438pt x 585.68813pt>
+File: figs/rain.png Graphic file (type png)
+<use figs/rain.png>
+Package pdftex.def Info: figs/rain.png  used on input line 497.
+(pdftex.def)             Requested size: 195.12767pt x 158.45963pt.
+<figs/water.png, id=208, 960.58875pt x 555.57562pt>
+File: figs/water.png Graphic file (type png)
+<use figs/water.png>
+Package pdftex.def Info: figs/water.png  used on input line 502.
+(pdftex.def)             Requested size: 216.81pt x 125.38907pt.
+ [9 <./figs/surfaceGrid.png> <./figs/BallPåFlate.png> <./figs/rain.png> <./fig
+s/water.png>] [10] [11] (folderRapport.aux)
  ***********
 LaTeX2e <2023-11-01>
-L3 programming layer <2023-11-09>
+L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `folderRapport.out' has not changed.
-(rerunfilecheck)             Checksum: 2031AEF21673591E872859D0038E2A32;1716.
+(rerunfilecheck)             Checksum: 71949ED6FD2241BA1FC436F8209FB4B7;2630.
 Package logreq Info: Writing requests to 'folderRapport.run.xml'.
 \openout1 = `folderRapport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39487 strings out of 474586
- 765446 string characters out of 5762087
- 1939558 words of memory out of 5000000
- 61061 multiletter control sequences out of 15000+600000
- 614273 words of font info for 73 fonts, out of 8000000 for 9000
+ 39692 strings out of 474586
+ 770556 string characters out of 5762087
+ 1940558 words of memory out of 5000000
+ 61246 multiletter control sequences out of 15000+600000
+ 630030 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,14n,107p,1301b,2800s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,16n,107p,1301b,2800s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <F:/MikTex/fonts/type1/public/lm/lmbsy10.pfb><F:/MikTex/fonts/type1/public/lm
-/lmbx12.pfb><F:/MikTex/fonts/type1/public/lm/lmbxi10.pfb><F:/MikTex/fonts/type1
-/public/lm/lmex10.pfb><F:/MikTex/fonts/type1/public/lm/lmmi12.pfb><F:/MikTex/fo
+/lmbx10.pfb><F:/MikTex/fonts/type1/public/lm/lmbxi10.pfb><F:/MikTex/fonts/type1
+/public/lm/lmex10.pfb><F:/MikTex/fonts/type1/public/lm/lmmi10.pfb><F:/MikTex/fo
 nts/type1/public/lm/lmmi6.pfb><F:/MikTex/fonts/type1/public/lm/lmmi8.pfb><F:/Mi
-kTex/fonts/type1/public/lm/lmr12.pfb><F:/MikTex/fonts/type1/public/lm/lmr17.pfb
-><F:/MikTex/fonts/type1/public/lm/lmr6.pfb><F:/MikTex/fonts/type1/public/lm/lmr
-8.pfb><F:/MikTex/fonts/type1/public/lm/lmri12.pfb><F:/MikTex/fonts/type1/public
-/lm/lmsy10.pfb><F:/MikTex/fonts/type1/public/lm/lmsy8.pfb><F:/MikTex/fonts/type
-1/public/lm/lmtt12.pfb><F:/MikTex/fonts/type1/public/amsfonts/symbols/msbm10.pf
-b>
-Output written on folderRapport.pdf (7 pages, 955583 bytes).
+kTex/fonts/type1/public/lm/lmr10.pfb><F:/MikTex/fonts/type1/public/lm/lmr12.pfb
+><F:/MikTex/fonts/type1/public/lm/lmr17.pfb><F:/MikTex/fonts/type1/public/lm/lm
+r6.pfb><F:/MikTex/fonts/type1/public/lm/lmr8.pfb><F:/MikTex/fonts/type1/public/
+lm/lmri10.pfb><F:/MikTex/fonts/type1/public/lm/lmsy10.pfb><F:/MikTex/fonts/type
+1/public/lm/lmsy8.pfb><F:/MikTex/fonts/type1/public/lm/lmtt10.pfb><F:/MikTex/fo
+nts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on folderRapport.pdf (11 pages, 4630576 bytes).
 PDF statistics:
- 234 PDF objects out of 1000 (max. 8388607)
- 30 named destinations out of 1000 (max. 500000)
- 127 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 331 PDF objects out of 1000 (max. 8388607)
+ 48 named destinations out of 1000 (max. 500000)
+ 235 words of extra memory for PDF output out of 10000 (max. 10000000)
 

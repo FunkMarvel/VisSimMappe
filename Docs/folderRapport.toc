@@ -3,12 +3,18 @@
 \contentsline {section}{Metode}{2}{section*.3}%
 \contentsline {subsection}{Punktsky og triangulering}{2}{section*.4}%
 \contentsline {subsubsection}{Vertekser}{2}{section*.5}%
-\contentsline {subsubsection}{Indeksering}{3}{section*.6}%
-\contentsline {subsection}{Ball på trekantflate}{3}{section*.7}%
-\contentsline {subsubsection}{Kollisjonsdeteksjon}{4}{section*.8}%
-\contentsline {subsubsection}{Glidefysikk}{5}{section*.10}%
-\contentsline {subsubsection}{Rulling på flere trekanter}{6}{section*.12}%
-\contentsline {subsection}{B-Splines og simulering av vassdrag}{7}{section*.13}%
-\contentsline {section}{Resultater}{7}{section*.14}%
-\contentsline {section}{Diskusjon}{7}{section*.15}%
-\contentsline {section}{Konklusjon}{7}{section*.16}%
+\contentsline {subsubsection}{Indeksering}{3}{section*.7}%
+\contentsline {subsection}{Ball på trekantflate}{4}{section*.9}%
+\contentsline {subsubsection}{Kollisjonsdeteksjon}{4}{section*.10}%
+\contentsline {subsubsection}{Glidefysikk}{5}{section*.12}%
+\contentsline {subsubsection}{Rulling på flere trekanter}{6}{section*.14}%
+\contentsline {subsection}{B-Splines og simulering av vassdrag}{7}{section*.16}%
+\contentsline {section}{Resultater}{8}{section*.18}%
+\contentsline {subsection}{Punktsky og glatting}{8}{section*.19}%
+\contentsline {subsection}{Overflate og ball}{9}{section*.21}%
+\contentsline {subsection}{Spline og vassdrag}{9}{section*.23}%
+\contentsline {section}{Diskusjon}{9}{section*.25}%
+\contentsline {section}{Konklusjon}{9}{section*.26}%
+\contentsline {section}{Prosjektfiler}{10}{appendix.1}%
+\contentsline {subsection}{Utdrag av vertices.txt}{10}{section*.28}%
+\contentsline {subsection}{Utdrag av indices.txt}{10}{section*.29}%

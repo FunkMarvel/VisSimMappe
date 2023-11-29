@@ -1,4 +1,4 @@
-\documentclass[norsk, doc, 12pt, a4paper]{apa7}  % defines the basic parameters of the document
+\documentclass[norsk, doc, 11pt, a4paper]{apa7}  % defines the basic parameters of the document
 
 % if you want a single-column, remove reprint
 
@@ -19,10 +19,11 @@
 \usepackage{tikz}             % draw figures manually
 \usetikzlibrary{tikzmark}
 \usepackage{listings}         % display code
-\usepackage{subfigure}        % imports a lot of cool and useful figure commands
 \usepackage{cprotect}
 \usepackage{float}
 \usepackage{caption}
+\usepackage{subcaption}
+\usepackage{xpatch}
 
 %\setlength{\parindent}{0px}
 
@@ -204,6 +205,7 @@
 \usepackage{bm}
 \newcommand{\uveci}{{\bm{\hat{\textit{\i}}}}}
 \newcommand{\uvecj}{{\bm{\hat{\textit{\j}}}}}
+\newcommand{\uveck}{{\bm{\hat{\textit{\k}}}}}
 
 \DeclareRobustCommand{\uvec}[1]{{%
   \ifcsname uvec#1\endcsname
@@ -225,6 +227,13 @@
 }
 
 \makeatletter
+\xpatchcmd{\appendix}
+  {\par}
+  {\addcontentsline{toc}{section}{\@currentlabelname}\par}
+  {}{}
+\makeatother
+
+\makeatletter
 \newcommand*{\balancecolsandclearpage}{%
   \close@column@grid
   \cleardoublepage
@@ -243,10 +252,10 @@
 \addbibresource{referanser.bib}
 
 \title{Mappeoppgave Visualisering og Simulering}   % self-explanatory
-\author{Anders P. Åsbø | kandidat.nr.: 843}               % self-explanatory
+\author{Kandidatnummer: 843}               % self-explanatory
 \affiliation{Høgskolen i Innlandet}
 \date{\today}                             % self-explanatory
-\shorttitle{2VSIM101 | kandidat.nr.: 843}
+\shorttitle{VSIM101 | kandidat.nr.: 843}
 %\noaffiliation                            % ignore this
 
 
@@ -271,21 +280,25 @@ Moderne målinger av terreng gjøres med LiDAR, og resulterer i rådata i form a
  ... \quad &... \quad ... \\
  x_{n-1} \quad &y_{n-1} \quad z_{n-1}
 \end{align*}
-hvor hver linje svarer til et punkt. For å kunne visualisere punktskyen som en sammenhengende overflate, så konstruerer jeg et regulært rutenett i \(xy\)-planet med dimensjoner \(\textbf{width} = x_{\text{max}} - x_{\text{min}}\) og \(\textbf{height} = y_{\text{max}} - y_{\text{min}}\). Hvor \(x_{\text{max}}\), \(x_{\text{min}}\), \(y_{\text{max}}\) og \(y_{\text{min}}\) er henholdsvis største og minste verdi for \(x\)- og \(y\)-koordinatene til punktene. Jeg velger så at hver rute i det regulære rutenettet er et kvadrat med areal \(\SI{10}{\metre\squared}\) (steglengde \(h = \SI{10}{\metre}\)), slik at \(n_{x} = \lceil \textbf{width}/h \rceil\) og \(n_{y} = \lceil \textbf{height}/h \rceil\) er henholdsvis antall ruter i \(x-\) og \(y-retning\). Hvert punkt kan så sorteres inn i ruten som dekker \(x\)- og \(y\)-koordinatene dens ved å regne ut rad- og kolonneindeks \(i\) og \(j\) i rutenettet som
+hvor hver linje svarer til et punkt.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width = .4\textwidth]{figs/PointGrid.png}
+	\caption{Illustrasjon av røde punkter i et regulært rutenett i \(xy\)-planet.}
+\end{figure}
+For å kunne visualisere punktskyen som en sammenhengende overflate, så konstruerer jeg et regulært rutenett i \(xy\)-planet med dimensjoner \(\textbf{width} = x_{\text{max}} - x_{\text{min}}\) og \(\textbf{height} = y_{\text{max}} - y_{\text{min}}\). Hvor \(x_{\text{max}}\), \(x_{\text{min}}\), \(y_{\text{max}}\) og \(y_{\text{min}}\) er henholdsvis største og minste verdi for \(x\)- og \(y\)-koordinatene til punktene. Jeg velger så at hver rute i det regulære rutenettet er et kvadrat med areal \(\SI{10}{\metre\squared}\) (steglengde \(h = \SI{10}{\metre}\)), slik at \(n_{x} = \lceil \textbf{width}/h \rceil\) og \(n_{y} = \lceil \textbf{height}/h \rceil\) er henholdsvis antall ruter i \(x-\) og \(y-retning\). Hvert punkt kan så sorteres inn i ruten som dekker \(x\)- og \(y\)-koordinatene dens ved å regne ut rad- og kolonneindeks \(i\) og \(j\) i rutenettet som
 \begin{align*}
 	i &= \lfloor \frac{x - x_{\text{min}}}{h} \rfloor \\
 	j &= \lfloor \frac{y - y_{\text{min}}}{h} \rfloor.
 \end{align*}
 For hver rute kan det regnes ut en gjennomsnittlig \(z\)-koordinat ved å ta gjennomsnittet av \(z\)-koordinatene til alle punktene med tilsvarende rad- og kolonneindeks
 \begin{align*}
-	\bar{z}_{i,j} &= \frac{1}{n_{i,j}}\sum_{k = 0}^{n_{i,j}}z_{i,j,k},
+	\bar{z}_{i,j} &= \frac{1}{n_{i,j}}\sum_{k = 0}^{n_{i,j}}z_{i,j,k},\text{ eller for tomme ruter }
+	\bar{z}_{i,j} = \frac{1}{8}\sum_{k=i-1}^{i+1}\sum_{\substack{l=j-1 \\ k\neq i \lor l\neq j}}^{j+1} \bar{z}_{k,l}.
 \end{align*}
-hvor \(n_{i,j}\) er antall punkter innenfor ruten som tilsvarer rad \(i\) kolonne \(j\). Hvis en rute skulle vise seg å ikke inneholde punkter, så kan gjennomsnittshøyden i den ruten regnes som gjennomsnittet av gjennomsnittshøydene til naborutene
-\begin{align*}
-	\bar{z}_{i,j} &= \frac{1}{8}\sum_{k=i-1}^{i+1}\sum_{\substack{l=j-1 \\ k\neq i \lor l\neq j}}^{j+1} \bar{z}_{k,l}.
-\end{align*}
-Hvis dette må regnes ut for en rute på kanten av rutenettet, så må alle naboer som ikke eksisterer ekskluderes fra beregningen over.
-Et sett med regulært fordelte punkter i \(xy\)-planet, sentrert rundt origo, kan skrives til fil på formatet
+hvor \(n_{i,j}\) er antall punkter innenfor ruten som tilsvarer rad \(i\) kolonne \(j\). Gjennomsnittshøyden i en tom rute regnes som gjennomsnittet av gjennomsnittshøydene til naborutene.
+Hvis dette må regnes for en rute på kanten av rutenettet, så må man ekskludere de ikke-eksisterende naboene.
+Settet med regulært fordelte punkter kan så sentreres rundt origo, og skrives til fil på formatet
 \begin{align*}
 	&n_{x}\cdot n_{y} \\
 	&(i\cdot h - n_{x}\cdot h/2,\quad \bar{z}_{i,j} - (z_{\text{max} - z_{\text{min}}})/2,\quad j\cdot h - n_{y}\cdot h/2) \\
@@ -294,23 +307,34 @@ Et sett med regulært fordelte punkter i \(xy\)-planet, sentrert rundt origo, ka
 for alle \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Første linjen i filen inneholder antall punkter. Videre er hver koordinat translatert slik at origo er sentrert, og \(y\)- og \(z\)- koordinaten er byttet om for innlesning i Unity \parencite{UnityEngine2023} som bruker et venstrehendt koordinatsystem med positiv \(y\)-akse som oppoverretning.
 
 \subsubsection{Indeksering}
-For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg alle kvadrater hjørner \(\vec{v}_{j + i\cdot n_{y}}\), \(\vec{v}_{(j+1) + i\cdot n_{y}}\), \(\vec{v}_{j + (i+1)\cdot n_{y}}\) og \(\vec{v}_{(j+1) + (i+1)\cdot n_{y}}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\). Videre er det to trekanter \(T_{\text{even}}\) og \(T_{\text{odd}}\) per kvadrat med henholdsvis partallsindeks og oddetallsindeks.
-
+For å kunne tegne en trekantflate av de regulært fordelte punktene i underseksjonen '\hyperref[M:1:1]{Vertekser}', så må det konstrueres en regulær triangulering med punktene som vertekser i trekanter. Dette gjøres ved å ta for seg kvadratet med hjørner \(v_{0} = j + i\cdot n_{y}\), \(v_{1} = (j+1) + i\cdot n_{y}\), \(v_{2} = j + (i+1)\cdot n_{y}\) og \(v_{3} = (j+1) + (i+1)\cdot n_{y}\), hvor \(\vec{v}_{k}\) er de regulært fordelte punktene, og \(j=0,1,2,...,n_{y}-1\) for alle \(i=0,1,2,...,n_{x}-1\).
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.6\linewidth]{figs/Indices.png}
+		\caption{Indeksering av vertekser i trekanter.}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/Neighbours.png}
+		\caption{Indeksering av nabotrekanter.}
+	\end{subfigure}
+	\caption{Illustrasjon av indeksering av trekanter og naboinformasjon per kvadrat i rutenettet. Trekantene er indeksert med klokka fordi de skal brukes i Unity sitt venstrehendte koordinatsystem.}
+\end{figure}
+Videre er det to trekanter \(T_{\text{even}}\) og \(T_{\text{odd}}\) per kvadrat med henholdsvis partallsindeks og oddetallsindeks.
 Altså kan området deles opp i \((n_{x}-1)\cdot (n_{y}-1)\) antall kvadrater med en partallstrekant
 \begin{align*}
- 	T_{\text{even}} &= 2(j + i\cdot (n_{y}-1))
+ 	T_{\text{even}} &= 2(j + i\cdot (n_{y}-1)), \qquad T_{\text{odd}} = T_{\text{even}} + 1.
 \end{align*} 
-med verteks-indekser
+Indeksering med naboinformasjon kan skrives til fil på formen
 \begin{align*}
-	j + i\cdot n_{y}, \quad (j+1) + i\cdot n_{y}, \quad j + (i+1)\cdot n_{y},
+	&2(n_{x}-1)\cdot (n_{y}-1) \\
+	& v_{0}\text{ } v_{1}\text{ } v_{2}\text{ } T_{\text{odd}}\text{ } T_{0}\text{ } T_{1} \\
+	& v_{1}\text{ } v_{2}\text{ } v_{3}\text{ } T_{2}\text{ } T_{\text{even}}\text{ } T_{3} \\
+	&...
 \end{align*}
-og nabotrekanter
-\begin{align*}
-	2(j + i\cdot (n_{y}-1)) + 1, \quad 2(j + i\cdot (n_{y}-1)) - 1, \quad  2(j + i\cdot (n_{y}-1)) + 1 - 2(n_{y} - 1),
-\end{align*}
-Hvor første verteks-indeks er motstående første naboindeks, også videre.
-% 2(j + i\cdot (n_{y}-1))
-% 2(j + i\cdot (n_{y}-1)) + 1
+Hvor første linje er totalt antall trekanter, og hvert par med linjer etter holder indekser og naboinformasjon for partall- og oddetallstrekanter i for et vilkårlig kvadrat.
 
 \subsection{Ball på trekantflate}
 For å simulere baller lagde jeg klassen \verb+BallPhysics+ som legges til som komponent på en instance av Unitys innebygde sfære-primitiv. Klassen har en referanse til \verb+TriangleSurface+-objektet den skal rulle på. Videre definerer jeg parametere for ballens masse \([\si{\kilogram}]\), radius \([\si{\metre}]\), friksjon [dimensjonsløs] og bounciness [dimensjonsløs].
@@ -350,13 +374,7 @@ For å simulere fysikken på ballen, så finner jeg først alle kreftene på bal
 
 I begge tilfeller er tyngdekraften på ballen lik
 \begin{align*}
-	\vec{G} &= m\vec{g} \\
-	&= m
-	\begin{pmatrix}
-		0 \\
-		\SI{-9.81}{\metre\per\second^{2}} \\
-		0
-	\end{pmatrix},
+	\vec{G} &= m\vec{g} = m\left(\SI{-9.81}{\metre\per\second^{2}}\right)\uvecj
 \end{align*}
 hvor \(m\) er ballens masse i kilogram.
 
@@ -366,14 +384,10 @@ I tilfellet hvor ballen er i kontakt med trekantflaten, så opplever ballen en n
 \end{align*}
 hvor \(\hat{n}\) er enhetsnormalvektoren til trekanten ballen er i kontakt med. Videre modelerer jeg også en glidefriksjonskraft
 \begin{align*}
-	\vec{F}_{f} &= -\mu |\vec{N}| \hat{v}_{\parallel},
+	\vec{F}_{f} &= -\mu |\vec{N}| \hat{v}_{\parallel}, \qquad
+	\hat{v}_{\parallel} = \frac{\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}}{|\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}|}.
 \end{align*}
-hvor \(\mu\) er rollingResistance-parameteren til \verb+BallPhysics+-klassen, og \(\hat{v}_{\parallel}\) er en dimensjonsløs enhetsvektor parallel med hastigheten til ballen projisert på trekanten ballen befinner seg på, slik at
-\begin{align*}
-	\hat{v}_{\parallel} &= \frac{\vec{v}_{\parallel}}{|\vec{v}_{\parallel}|}
-	= \frac{\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}}{|\vec{v} - \left(\vec{v}\cdot\hat{n}\right)\hat{n}|}.
-\end{align*}
-Her er \(\vec{v}\) hastighetsvektoren til ballen. Friksjonskraften virker da alltid mot bevegelsesretningen langs flaten ballen er i kontakt med.
+hvor \(\mu\) er en kinetisk friksjonskonstant, og \(\vec{v}\) hastighetsvektoren til ballen. Friksjonskraften virker da alltid mot bevegelsesretningen langs flaten ballen er i kontakt med.
 
 Jeg finner så akselerasjonen til ballen ved Newton's andre lov, slik at
 \begin{align*}
@@ -382,8 +396,9 @@ Jeg finner så akselerasjonen til ballen ved Newton's andre lov, slik at
 og integrerer hastighet \(\vec{v}\) og posisjon \(\vec{p}\) med Forward-Euler algoritmen
 \begin{align*}
 	\vec{v}_{t+\Delta t} &= \vec{v}_{t} + \vec{a}\cdot\Delta t, \\
-	p_{t+\Delta t} &= p_{t} + \vec{v}_{t+\Delta t}\cdot \Delta t. 
+	p_{t+\Delta t} &= p_{t} + \vec{v}_{t+\Delta t}\cdot \Delta t,
 \end{align*}
+Hvor \(\Delta t = \SI{0.02}{\second}\).
 
 \subsubsection{Rulling på flere trekanter}
 I tilfellet hvor ballen krysser fra en trekant til neste, så har jeg implementert to separate måter å håndtere det på. I tilfellet hvor ballen har en bounciness som er større enn \(0\), så håndteres all kollisjon med den delvise refleksjonen beskrevet i underseksjon '\hyperref[sec:3:A]{Kollisjonsdeteksjon}'
@@ -394,9 +409,7 @@ I tilfellet hvor ballen krysser fra en trekant til neste, så har jeg implemente
 I tilfellet hvor ballens bounciness er satt til å være \(0\), så bruker jeg i stedet en refleksjon av planet med normal lik gjennomsnittsnormalen til de to involverte trekantene.
 \begin{align*}
 	\vec{v}_{\text{etter}} &= \vec{v}_{\text{før}} - 2\left(\vec{v}_{\text{før}}\cdot\hat{n}\right)\hat{n},
-\end{align*}
-hvor
-\begin{align*}
+	\qquad
 	\hat{n} = \frac{\hat{n}_{\text{før}}+\hat{n}_{\text{etter}}}{|\hat{n}_{\text{før}}+\hat{n}_{\text{etter}}|}.
 \end{align*}
 Dette bevarer farten til ballen over trekantbyttet. Jeg har også valgt å kun gjøre denne refleksjonen i tilfellet hvor
@@ -404,22 +417,141 @@ Dette bevarer farten til ballen over trekantbyttet. Jeg har også valgt å kun g
 	\left(\hat{n}_{\text{før}}\cross \hat{n}_{\text{etter}}\right)\cdot\left(\hat{n}_{\text{før}}\cross \hat{v}_{\parallel}\right) < 0,
 \end{align*}
 hvor \(\hat{v}_{\parallel}\) er enhetsvektoren i samme retning som komponenten av ballens hastighet som er parallel med trekanten.
-Betingelsen over, sørger for at refleksjonen kun skjer hvis ballen beveger seg over et konkavt trekantbytte. Derimot, hvis trekantbyttet er konvekst, så vil ballens hastighet ikke reflekteres. Dette gjør jeg slik at for en vilkårlig trekantflate, så vil ballen oppføre seg som om flaten er glatt for konvekse skjøter, men være i stand til å forlate flaten og komme i fritt fall ved konvekse skjøter.
+Betingelsen over, sørger for at hastigheten kun er bevart over konvekse skjøter relativt til positiv \(y\)-retning, slik at ballen kan komme i fritt fall hvis den sklir utfor et fall.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.25\textwidth]{figs/refleksjon.pdf}
+	\caption{Korrigering av hastighetsretning ved konvekse, men ikke konkave skjøter. Positiv \(y\)-akse rettet oppover på figuren.}
+\end{figure}
 
 \subsection{B-Splines og simulering av vassdrag}
-For å simulere vassdrag som produseres under ekstremnedbør, modelerer jeg et sett med enkeltregndråper i form av baller som følger fysikken beskrevet i forrige sekjson. Videre får hver ball en tilfeldig generert startposisjon innenfor et valgt volum over terrenget. Jeg velger så å logge posisjonen til hver av regndråpene et gitt antall ganger per tid, over en gitt tidsperiode. De lagrede posisjonene blir så brukt som kontrollpunkter i \(xz\)-planet for en \(2D\), kvadratisk B-Spline som skal representere enkeltdråpenes bevegelse horisontalt langs terrenget. Splinen kan så tegnes ved å evaluere punkter for \(n_{t}\) uniformt fordelte verdier av parameteren \(t\), som jeg tegner rette linjer mellom. De tegnede punktene løftes opp på terrengoverflaten ved å beregne høyde med barysentriske koordinater.
+For å simulere vassdrag som produseres under ekstremnedbør, modelerer jeg et sett med enkeltregndråper i form av baller som følger fysikken beskrevet i forrige sekjson. Videre får hver ball en tilfeldig generert startposisjon innenfor et valgt volum over terrenget. Jeg velger så å lagre posisjonen til hver av regndråpene \(15\) gjevnt fordelte ganger over en tidsperiode på \(\SI{30}{\second}\). De lagrede posisjonene blir så brukt som kontrollpunkter i \(xz\)-planet for en \(2D\) kvadratisk B-Spline, implementer med deBoors algoritme \parencite[ss.98-102]{nylundMAT301MatematikkIII2023}, som skal representere enkeltdråpenes bevegelse horisontalt. Splinen kan så tegnes ved å evaluere punkter for \(750\) uniformt fordelte verdier av parameteren \(t\), som jeg tegner rette linjer mellom. De tegnede punktene løftes opp på terrengoverflaten ved å beregne høyde med barysentriske koordinater.
 
 For å simulere effekten av et slik vassdrag på en kampestein eller annet løsmateriale, så bruker jeg likningen for motstandskraft i fluid
 \begin{align*}
 	\vec{F}_{D} &= \frac{1}{2}C_{D}\rho A |\vec{v}|\vec{v},
 \end{align*}
-hvor \(C_{D}\) er dragkoeffisienten til legemet som påvirkes, \(\rho\) er tettheten til fluidet, \(A\) er tversnittarealet som står normalt på fluidets bevegelsesretning, og \(\vec{v}\) er fluidets hastighet relativt til legemet \parencite[s.7]{alexanderMovingBouldersFlash2016}. I min simulasjon bruker jeg en ball med masse \(m_{b} = \SI{50}{\kilogram}\) og radius \(r_{b} = \SI{1}{\metre}\) plasert på terrenget. Jeg har valgt en dragkoeffisient på \(C_{D} = 0.5\) siden det gjelder for sfærer i mange forskjellige typer flyt \parencite{hallDragSphere2023}. Videre har ballen et tversnittareal \(A = \pi r_{b}^{2}\).
-
+hvor \(C_{D}\) er dragkoeffisienten til legemet som påvirkes, \(\rho = \SI{1000}{\kilogram\per\metre\cubed}\) er tettheten til fluidet, \(A\) er tversnittarealet som står normalt på fluidets bevegelsesretning, og \(\vec{v} = \vec{v}_{f} - \vec{v}_{b}\) er fluidets hastighet relativt til legemet \parencite[s.7]{alexanderMovingBouldersFlash2016}. I min simulasjon bruker jeg en ball med masse \(m_{b} = \SI{50}{\kilogram}\) og radius \(r_{b} = \SI{1}{\metre}\) plasert på terrenget. Jeg har valgt en dragkoeffisient på \(C_{D} = 0.5\) siden det gjelder for sfærer i mange forskjellige typer flyt \parencite{hallDragSphere2023}. Videre har ballen et tversnittareal \(A = \pi r_{b}^{2}\).
+Hastighetsvektoren til fluidet regner jeg ut som
+\begin{align*}
+	\vec{v}_{f} = v\hat{T}_{\text{mean}}, \qquad v = \SI{3}{\metre\per\second},
+\end{align*}
+Hvor \(v\) er en konstant hastighet jeg har valgt for vassdraget, og \(\hat{T}_{\text{mean}}\) er den gjennomsnittet av enhetstangentvektoren i nærmeste punkt på hver B-Spline innenfor en radius på \(\SI{5}{\metre}\) fra ballen. Jeg tilnærmer tangentvektoren \(\vec{T} = S(t+\Delta t) - S(t)\) for en parameterverdi \(t\) som et lite steg \(\Delta t = 0.5\) langs splinen \(S\). For å finne parameterverdien tilsvarende nærmeste punkt \(P_{c}\) for posisjonen til ballen \(P_{b}\) på splinen \(S\), så bruker jeg at
+\begin{align*}
+  	\vec{(P_{b} - P_{c})}\cdot\vec{T_{c}} = 0,
+\end{align*}
+som jeg kan tilnærme en løsning for iterativt med Newton's midtpunktsmetode
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/newtonPos.png}
+		\caption{Velger øvre interval hvis prikkproduktet er positivt.}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/newtonNeg.png}
+		\caption{Velger nedre interval hvis prikkproduktet er negativt.}
+	\end{subfigure}
+	\caption{Iterativ inskrenkning av parameterverdi for punkt \(P_{c,i}\) på splinen \(S\) som er nærmest punktet \(P_{b}\).}
+\end{figure}
 
 \section{Resultater}
+\subsection{Punktsky og glatting}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/punktSample.png}
+		\caption{Hvert hundrede punkt fra rådataene.}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/punktMean.png}
+		\caption{Regulært glattede punkter.}
+	\end{subfigure}
+	\caption{Plott av punktskydataene.}
+\end{figure}
+
+\subsection{Overflate og ball}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/surfaceGrid.png}
+		\caption{Regulært indeksert trekantflate}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/BallPåFlate.png}
+		\caption{Oransj ball som sklir på flaten.}
+	\end{subfigure}
+	\caption{Plott av trekantflaten og to perspektiver av samme ball.}
+\end{figure}
+
+\subsection{Spline og vassdrag}
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{figs/rain.png}
+		\caption{Regndråper simulert som små, blå baller.}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{figs/water.png}
+		\caption{B-Splines som viser vassdrag forårsaket av regn.}
+	\end{subfigure}
+	\caption{Plott av regn og vassdrag. Den oransje ballen flyter med vassdraget.}
+\end{figure}
+
 \section{Diskusjon}
+
+
 \section{Konklusjon}
 
 \printbibliography
+
+\appendix
+\section{Prosjektfiler}
+\subsection{Utdrag av vertices.txt}
+\begin{verbatim}
+28800
+(-600, 87.3003, -300)
+(-600, 86.173, -295)
+(-600, 84.6683, -290)
+(-600, 82.7369, -285)
+(-600, 81.8657, -280)
+(-600, 83.2463, -275)
+(-600, 81.257, -270)
+(-600, 79.8496, -265)
+(-600, 79.406, -260)
+(-600, 79.7682, -255)
+(-600, 78.7479, -250)
+(-600, 79.5409, -245)
+(-600, 80.1995, -240)
+(-600, 78.4865, -235)
+...
+\end{verbatim}
+
+\subsection{Utdrag av indices.txt}
+\begin{verbatim}
+56882
+0 1 120 1 -1 -1
+1 121 120 238 0 2
+1 2 121 3 1 -1
+2 122 121 240 2 4
+2 3 122 5 3 -1
+3 123 122 242 4 6
+3 4 123 7 5 -1
+4 124 123 244 6 8
+4 5 124 9 7 -1
+5 125 124 246 8 10
+5 6 125 11 9 -1
+6 126 125 248 10 12
+6 7 126 13 11 -1
+7 127 126 250 12 14
+...
+\end{verbatim}
 
 \end{document}

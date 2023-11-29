@@ -186,9 +186,7 @@ public class TriangleSurface : MonoBehaviour
         filter.sharedMesh = GenerateMesh();
 
         // use chosen material, or default material if nothing is chosen.
-        meshRenderer.sharedMaterial = material != null
-            ? material
-            : AssetDatabase.GetBuiltinExtraResource<Material>("Default-Material.mat");
+        meshRenderer.sharedMaterial = material;
 
         _hasMesh = true; // tell gizmos to stop reading data when simulation is running.
     }
