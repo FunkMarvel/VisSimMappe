@@ -272,7 +272,7 @@ Rapporten fokuserer på hvordan lage en regulært indeksert trekantflate som rep
 \section{Metode}
 \subsection{Punktsky og triangulering}
 \subsubsection{Vertekser} \label{M:1:1}
-Moderne målinger av terreng gjøres med LiDAR, og resulterer i rådata i form av en uorganisert samling punkter i \(\R^{3}\) relativt til et valgt koordinatsystem \parencite{bergerSurveySurfaceReconstruction2017}. Jeg har valgt å laste ned punktdata fra Kartverket sin database '\url{hoydedata.no}' i '.laz'-format, som jeg så konverterer til en rentekst-fil ved hjelp av programvaren 'LASzip' \parencite{isenburgLASzip2019}. Den resulterende tekstfilen inneholder da \(n\) antall punkter fordelt på formen
+Moderne målinger av terreng gjøres med LiDAR, og resulterer i rådata i form av en uorganisert samling punkter i \(\R^{3}\) relativt til et valgt koordinatsystem \parencite{bergerSurveySurfaceReconstruction2017}. Jeg har valgt å laste ned punktdata fra Kartverket sin database '\url{hoydedata.no}' i '.laz'-format, som jeg så konverterer til en rentekst-fil ved hjelp av programvaren 'LASzip' \parencite{isenburgLASzip2019}. Høydedataene er fra følgende målinger: \parencite{HoydedataNDHEngerdal2018, HoydedataNDHEngerdal2018a, HoydedataNDHTrysil2018}. Den resulterende tekstfilen fra LASzip inneholder da \(n\) antall punkter fordelt på formen
 \begin{align*}
  x_{0} \quad &y_{0} \quad z_{0} \\
  x_{1} \quad &y_{1} \quad z_{1} \\

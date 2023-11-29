@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  29 NOV 2023 22:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10.12) (preloaded format=pdflatex 2023.11.27)  29 NOV 2023 23:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1372,25 +1372,25 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
 {C:/Users/aande/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{F:/MikTex/fon
 ts/enc/dvips/lm/lm-ec.enc}]
-<figs/PointGrid.png, id=131, 1047.16219pt x 618.81187pt>
+<figs/PointGrid.png, id=134, 1047.16219pt x 618.81187pt>
 File: figs/PointGrid.png Graphic file (type png)
 <use figs/PointGrid.png>
 Package pdftex.def Info: figs/PointGrid.png  used on input line 285.
 (pdftex.def)             Requested size: 173.44534pt x 102.49612pt.
  [2{F:/MikTex/fonts/enc/dvips/lm/lm-rm.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mat
 hit.enc}{F:/MikTex/fonts/enc/dvips/lm/lm-mathsy.enc} <./figs/PointGrid.png>]
-<figs/Indices.png, id=156, 845.40843pt x 614.295pt>
+<figs/Indices.png, id=162, 845.40843pt x 614.295pt>
 File: figs/Indices.png Graphic file (type png)
 <use figs/Indices.png>
 Package pdftex.def Info: figs/Indices.png  used on input line 314.
 (pdftex.def)             Requested size: 130.08731pt x 94.5211pt.
-<figs/Neighbours.png, id=157, 1231.60126pt x 630.85687pt>
+<figs/Neighbours.png, id=163, 1231.60126pt x 630.85687pt>
 File: figs/Neighbours.png Graphic file (type png)
 <use figs/Neighbours.png>
 Package pdftex.def Info: figs/Neighbours.png  used on input line 319.
 (pdftex.def)             Requested size: 216.81pt x 111.04655pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 3735) has occurred while \output is active []
 
  [3{F:/MikTex/fonts/enc/dvips/lm/lm-mathex.enc}]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
@@ -1398,14 +1398,14 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
  (F:\MikTex\tex/latex/lm\t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<figs/kollisjon.pdf, id=169, 928.04309pt x 597.67296pt>
+<figs/kollisjon.pdf, id=175, 928.04309pt x 597.67296pt>
 File: figs/kollisjon.pdf Graphic file (type pdf)
 <use figs/kollisjon.pdf>
 Package pdftex.def Info: figs/kollisjon.pdf  used on input line 347.
 (pdftex.def)             Requested size: 232.01021pt x 149.41786pt.
 
 [4 <./figs/Indices.png> <./figs/Neighbours.png>]
-<figs/frilegmediagram.pdf, id=179, 733.47635pt x 597.67296pt>
+<figs/frilegmediagram.pdf, id=185, 733.47635pt x 597.67296pt>
 File: figs/frilegmediagram.pdf Graphic file (type pdf)
 <use figs/frilegmediagram.pdf>
 Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 370.
@@ -1414,28 +1414,28 @@ Package pdftex.def Info: figs/frilegmediagram.pdf  used on input line 370.
 Underfull \vbox (badness 2158) has occurred while \output is active []
 
  [5 <./figs/kollisjon.pdf>] [6 <./figs/frilegmediagram.pdf>]
-<figs/refleksjon.pdf, id=199, 607.68633pt x 597.67296pt>
+<figs/refleksjon.pdf, id=205, 607.68633pt x 597.67296pt>
 File: figs/refleksjon.pdf Graphic file (type pdf)
 <use figs/refleksjon.pdf>
 Package pdftex.def Info: figs/refleksjon.pdf  used on input line 422.
 (pdftex.def)             Requested size: 108.405pt x 106.61891pt.
  [7 <./figs/refleksjon.pdf>]
-<figs/newtonPos.png, id=213, 1383.66937pt x 538.26094pt>
+<figs/newtonPos.png, id=219, 1383.66937pt x 538.26094pt>
 File: figs/newtonPos.png Graphic file (type png)
 <use figs/newtonPos.png>
 Package pdftex.def Info: figs/newtonPos.png  used on input line 447.
 (pdftex.def)             Requested size: 195.12767pt x 75.9063pt.
-<figs/newtonNeg.png, id=214, 1290.32062pt x 481.8pt>
+<figs/newtonNeg.png, id=220, 1290.32062pt x 481.8pt>
 File: figs/newtonNeg.png Graphic file (type png)
 <use figs/newtonNeg.png>
 Package pdftex.def Info: figs/newtonNeg.png  used on input line 452.
 (pdftex.def)             Requested size: 195.12767pt x 72.85501pt.
-<figs/punktSample.png, id=215, 1150.2975pt x 849.92531pt>
+<figs/punktSample.png, id=221, 1150.2975pt x 849.92531pt>
 File: figs/punktSample.png Graphic file (type png)
 <use figs/punktSample.png>
 Package pdftex.def Info: figs/punktSample.png  used on input line 464.
 (pdftex.def)             Requested size: 195.12767pt x 144.17413pt.
-<figs/punktMean.png, id=216, 1131.47719pt x 857.45343pt>
+<figs/punktMean.png, id=222, 1131.47719pt x 857.45343pt>
 File: figs/punktMean.png Graphic file (type png)
 <use figs/punktMean.png>
 Package pdftex.def Info: figs/punktMean.png  used on input line 469.
@@ -1444,22 +1444,22 @@ Package pdftex.def Info: figs/punktMean.png  used on input line 469.
 Underfull \vbox (badness 5533) has occurred while \output is active []
 
  [8 <./figs/newtonPos.png> <./figs/newtonNeg.png>]
-<figs/surfaceGrid.png, id=226, 1196.21906pt x 813.0375pt>
+<figs/surfaceGrid.png, id=232, 1196.21906pt x 813.0375pt>
 File: figs/surfaceGrid.png Graphic file (type png)
 <use figs/surfaceGrid.png>
 Package pdftex.def Info: figs/surfaceGrid.png  used on input line 480.
 (pdftex.def)             Requested size: 195.12767pt x 132.61946pt.
-<figs/BallPåFlate.png, id=227, 746.79pt x 377.15906pt>
+<figs/BallPåFlate.png, id=233, 746.79pt x 377.15906pt>
 File: figs/BallPåFlate.png Graphic file (type png)
 <use figs/BallPåFlate.png>
 Package pdftex.def Info: figs/BallPåFlate.png  used on input line 485.
 (pdftex.def)             Requested size: 216.81pt x 109.49417pt.
-<figs/rain.png, id=228, 721.19438pt x 585.68813pt>
+<figs/rain.png, id=234, 721.19438pt x 585.68813pt>
 File: figs/rain.png Graphic file (type png)
 <use figs/rain.png>
 Package pdftex.def Info: figs/rain.png  used on input line 496.
 (pdftex.def)             Requested size: 195.12767pt x 158.45963pt.
-<figs/water.png, id=229, 960.58875pt x 555.57562pt>
+<figs/water.png, id=235, 960.58875pt x 555.57562pt>
 File: figs/water.png Graphic file (type png)
 <use figs/water.png>
 Package pdftex.def Info: figs/water.png  used on input line 501.
@@ -1504,10 +1504,10 @@ Package logreq Info: Writing requests to 'folderRapport.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 39719 strings out of 474586
- 770928 string characters out of 5762087
- 1940558 words of memory out of 5000000
- 61267 multiletter control sequences out of 15000+600000
+ 39740 strings out of 474586
+ 771787 string characters out of 5762087
+ 1941558 words of memory out of 5000000
+ 61285 multiletter control sequences out of 15000+600000
  630030 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,16n,107p,1301b,2800s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1521,9 +1521,9 @@ r6.pfb><F:/MikTex/fonts/type1/public/lm/lmr8.pfb><F:/MikTex/fonts/type1/public/
 lm/lmri10.pfb><F:/MikTex/fonts/type1/public/lm/lmsy10.pfb><F:/MikTex/fonts/type
 1/public/lm/lmsy8.pfb><F:/MikTex/fonts/type1/public/lm/lmtt10.pfb><F:/MikTex/fo
 nts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on folderRapport.pdf (13 pages, 4642365 bytes).
+Output written on folderRapport.pdf (13 pages, 4645707 bytes).
 PDF statistics:
- 377 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
+ 390 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
  259 words of extra memory for PDF output out of 10000 (max. 10000000)
 
