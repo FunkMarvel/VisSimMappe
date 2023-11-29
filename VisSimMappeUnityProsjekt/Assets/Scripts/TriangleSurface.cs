@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -71,6 +70,7 @@ public class TriangleSurface : MonoBehaviour
     ///     Project position onto surface along surface normal.
     /// </summary>
     /// <param name="position">Position to find contact of.</param>
+    /// <param name="correctedPos">bool - whether to return closest point, or point with same xz-coordinates.</param>
     /// <returns>struct with contact point and hit normal. If hit normal is zero vector, then no hit was found.</returns>
     public Contact GetCollision(Vector3 position, bool correctedPos = true)
     {

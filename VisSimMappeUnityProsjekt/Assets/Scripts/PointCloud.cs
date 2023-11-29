@@ -182,43 +182,4 @@ public class PointCloud : MonoBehaviour
     
         _vertices = vertices;
     }
-
-    //
-    // public Mesh mesh;
-    // public Material material;
-    //
-
-    // private List<List<Matrix4x4>> _batches = new List<List<Matrix4x4>>();
-    //
-    // private void RenderBatches()
-    // {
-    //     foreach (var batch in _batches)
-    //     {
-    //         Graphics.DrawMeshInstanced(mesh, 0, material, batch);
-    //     }
-    // }
-    //
-    //
-    // private void OnEnable()
-    // {
-    //     ReadVertexData();
-    //     _pointBuffer = new ComputeBuffer(_vertices.Length, 3 * 4);
-    //     _pointBuffer.SetData(_vertices);
-    // }
-    //
-    // private void OnDisable()
-    // {
-    //     _pointBuffer.Release();
-    //     _pointBuffer = null;
-    // }
-    //
-    // private void Update()
-    // {
-    //     RenderBatches();
-    // }
-    //
-    // /// <summary>
-    // ///     Read vertex-data from file.
-    // /// </summary>
-
 }
